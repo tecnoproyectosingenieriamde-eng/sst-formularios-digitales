@@ -11,7 +11,7 @@ const forms: FormItem[] = [
   { code: 'FM-SST-29', title: 'Autorreporte de actos inseguros', category: 'Reporte y prevención', description: 'Pendiente de revisar campos y flujo de aprobación.', icon: ShieldCheck, planned: true },
 ]
 const blankPerson = (): AttendanceParticipant => ({ name: '', identification: '', cargo: '', signature: '' })
-const newRecord = (): AttendanceRecord => ({ activity: '', date: new Date().toLocaleDateString('en-CA'), location: '', responsible: '', facilitatorName: '', facilitatorRole: '', facilitatorSignature: '', observations: '', participants: [blankPerson()] })
+const newRecord = (): AttendanceRecord => ({ activity: '', date: new Date().toLocaleDateString('en-CA'), location: '', responsible: '', facilitatorName: '', facilitatorSignature: '', observations: '', participants: [blankPerson()] })
 
 export default function App() {
   const [query, setQuery] = useState('')
@@ -27,7 +27,7 @@ export default function App() {
   const openForm = () => { setRecord(newRecord()); setNotice(''); setActiveForm(true) }
   const exportPdf = async () => {
     setBusy(true); setNotice('')
-    try { await downloadAttendancePdf(record); setNotice('PDF preliminar generado. Revísalo: todavía no corresponde a la plantilla oficial validada.') }
+    try { await downloadAttendancePdf(record); setNotice('PDF de revisión generado con la estructura de FM-SST-14. El logotipo es provisional y falta validación visual final.') }
     catch { setNotice('No se pudo generar el PDF. Intenta de nuevo.') }
     finally { setBusy(false) }
   }
@@ -51,7 +51,7 @@ export default function App() {
         <div className="eyebrow"><span className="eyebrow-line" /> FORMULARIO EN DESARROLLO</div>
         <h1>Registro de <span>asistencia.</span></h1>
         <p className="welcome-copy">Completa los datos de la actividad, registra a los asistentes y captura sus firmas. Esta versión no guarda información en una base de datos.</p>
-        <div className="draft-warning"><ShieldCheck size={20} /><div><strong>Formato preliminar de pruebas</strong><p>El PDF es una maqueta rediseñada, no la plantilla original validada. Usa únicamente datos ficticios; no lo uses como evidencia oficial.</p></div></div>
+        <div className="draft-warning"><ShieldCheck size={20} /><div><strong>Formato en validación</strong><p>La estructura se está ajustando al formato FM-SST-14 original. El logotipo aún es provisional y el PDF requiere revisión final. Usa datos ficticios.</p></div></div>
         <form className="attendance-form" onSubmit={(event) => { event.preventDefault(); void exportPdf() }}>
           <div className="form-section-title"><span className="section-number">01</span><div><h2>Información de la actividad</h2><p>Completa los datos principales de la jornada.</p></div></div>
           <div className="fields-grid">
@@ -60,8 +60,7 @@ export default function App() {
             <label className="field"><span>Lugar de la actividad <b>*</b></span><span className="input-with-icon"><MapPin size={17} /><input required maxLength={120} value={record.location} onChange={(e) => update('location', e.target.value)} placeholder="Lugar o sede" /></span></label>
             <label className="field"><span>Responsable de la actividad <b>*</b></span><span className="input-with-icon"><UserRound size={17} /><input required maxLength={120} value={record.responsible} onChange={(e) => update('responsible', e.target.value)} placeholder="Responsable de la actividad" /></span></label>
             <label className="field"><span>Nombre del facilitador <b>*</b></span><input required maxLength={120} value={record.facilitatorName} onChange={(e) => update('facilitatorName', e.target.value)} placeholder="Nombre del facilitador" /></label>
-            <label className="field"><span>Cargo del facilitador</span><input maxLength={100} value={record.facilitatorRole} onChange={(e) => update('facilitatorRole', e.target.value)} placeholder="Cargo" /></label>
-          </div>
+            </div>
           <div className="form-section-title participant-heading"><span className="section-number">02</span><div><h2>Participantes</h2><p>Agrega una fila por persona. Registra el cargo y la firma de cada asistente.</p></div><span className="participant-count">{record.participants.length} fila(s)</span></div>
           <div className="participant-list">{record.participants.map((person, index) => <div className="participant-row" key={index}>
             <div className="participant-row-title"><span>PARTICIPANTE {String(index + 1).padStart(2, '0')}</span>{record.participants.length > 1 && <button type="button" className="remove-row" onClick={() => setRecord((old) => ({ ...old, participants: old.participants.filter((_, i) => i !== index) }))}>Quitar</button>}</div>
