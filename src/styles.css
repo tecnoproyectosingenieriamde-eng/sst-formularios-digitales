@@ -214,3 +214,34 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
 .signature-canvas { display: block; width: 100%; height: 90px; border: 1px dashed #b8c9bf; border-radius: 7px; background: #fff; touch-action: none; cursor: crosshair; }
 .signature-field small { color: #89978f; font-size: 9px; font-weight: 400; line-height: 1.5; }
 .facilitator-signature { margin-top: 18px; max-width: 520px; }
+
+
+/* FM-SST-16: evaluación de inducción basada en plantilla original */
+.field select { width: 100%; height: 41px; padding: 0 11px; border: 1px solid #dce5df; border-radius: 7px; background: #fff; color: #24382e; font: 400 12px 'DM Sans', sans-serif; }
+.field select:focus { outline: 2px solid #d2e8db; border-color: #76ad8c; }
+.induction-questions { display: grid; gap: 17px; }
+.induction-open-question { padding: 14px; border: 1px solid #e3ebe5; border-radius: 9px; background: #fbfcfb; }
+.choice-fieldset { min-width: 0; margin: 0; padding: 15px; border: 1px solid #e3ebe5; border-radius: 9px; background: #fbfcfb; }
+.choice-fieldset legend { max-width: 100%; padding: 0 5px; color: #34483e; font-size: 11px; font-weight: 700; line-height: 1.7; }
+.radio-options { display: flex; gap: 22px; flex-wrap: wrap; padding: 7px 2px 0; }
+.radio-options label, .multiple-options label { display: flex; align-items: flex-start; gap: 9px; color: #53665b; font-size: 11px; line-height: 1.65; cursor: pointer; }
+.radio-options input, .multiple-options input { margin-top: 3px; accent-color: #347653; flex: 0 0 auto; }
+.multiple-options { display: grid; gap: 10px; margin-top: 8px; }
+.multiple-options label span { flex: 1; }
+.commitment-text { padding: 15px; border: 1px solid #e3ebe5; border-radius: 9px; color: #53665b; font-size: 12px; line-height: 1.9; }
+.signature-print-wrap { max-width: 520px; margin-top: 14px; }
+@media print {
+  @page { size: A4; margin: 14mm; }
+  body { min-width: auto; background: #fff; }
+  .sidebar, .topbar, .no-print, .back-link, .prototype-disclaimer { display: none !important; }
+  .main-content { margin: 0 !important; padding: 0 !important; max-width: none; }
+  .attendance-page { max-width: none; padding: 0; }
+  .attendance-page h1 { font-size: 22px; }
+  .welcome-copy { font-size: 10px; }
+  .attendance-form { border: 0; box-shadow: none; padding: 0; }
+  .form-section-title { break-after: avoid; }
+  .induction-open-question, .choice-fieldset, .commitment-text { break-inside: avoid; }
+  .field textarea { border: 1px solid #999; }
+  .signature-canvas { border: 1px solid #999; }
+  .form-actions { display: none !important; }
+}
