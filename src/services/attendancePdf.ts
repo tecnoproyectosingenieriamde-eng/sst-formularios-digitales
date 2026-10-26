@@ -157,7 +157,7 @@ export async function downloadAttendancePdf(record: AttendanceRecord) {
   })
 
   const bytes = await pdf.save()
-  const blob = new Blob([bytes], { type: 'application/pdf' })
+  const blob = new Blob([new Uint8Array(bytes)], { type: 'application/pdf' })
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')
   anchor.href = url
