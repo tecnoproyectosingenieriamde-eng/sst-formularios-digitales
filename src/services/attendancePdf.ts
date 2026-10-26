@@ -1,4 +1,4 @@
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
+import { PDFDocument, StandardFonts, rgb, type PDFPage } from 'pdf-lib'
 
 export type AttendanceParticipant = {
   name: string
@@ -43,8 +43,7 @@ export async function downloadAttendancePdf(record: AttendanceRecord) {
   const green = rgb(0.12, 0.31, 0.24)
   const pale = rgb(0.91, 0.95, 0.92)
   const line = rgb(0.80, 0.85, 0.82)
-  let page = pdf.addPage([pageWidth, pageHeight])
-  pdf.removePage(0)
+  let page = {} as PDFPage
   let y = 0
   let pageNumber = 0
 
