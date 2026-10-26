@@ -163,6 +163,11 @@ export async function downloadAttendancePdf(record: AttendanceRecord) {
     }
     await drawPerson(people[i])
   }
+  // Completa las filas vacías de la primera página, como en la plantilla impresa.
+  if (pageNo === 1 && people.length < 22) {
+    const blank: AttendanceParticipant = { name: '', identification: '', cargo: '', signature: '' }
+    for (let i = people.length; i < 22; i += 1) await drawPerson(blank)
+  }
 
   // Mantiene un área amplia para observaciones y los dos campos de cierre del formato.
   if (y + 110 > 785) {
