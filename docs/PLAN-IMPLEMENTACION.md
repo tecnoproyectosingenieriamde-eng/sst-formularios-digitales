@@ -5,8 +5,8 @@
 - [x] Crear interfaz base con catálogo y búsqueda.
 - [x] Marcar claramente que es un entorno de pruebas.
 - [x] Comprobar instalación de dependencias y compilación automática en GitHub Actions.
-- [ ] Ejecutar la aplicación en navegador y revisar diseño en escritorio y móvil.
-- [ ] Ejecutar compilación CI de los cambios recientes y corregir errores si aparecen.
+- [ ] Ejecutar la aplicación en navegador y revisar diseño en escritorio y móvil (pendiente de prueba visual interactiva).
+- [x] Ejecutar compilación CI de los cambios recientes; el commit `5f3f05e` terminó correctamente en GitHub Actions.
 
 ## Fase 2 — Formularios y PDF
 - [x] Inspeccionar la plantilla original FM-SST-14 (PDF adjunto por el usuario); FM-SST-16 sigue pendiente.
