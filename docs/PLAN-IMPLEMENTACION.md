@@ -12,7 +12,10 @@
 - [x] Inspeccionar la plantilla original FM-SST-14 (PDF adjunto por el usuario); FM-SST-16 sigue pendiente.
 - [x] Documentar los campos visibles de FM-SST-14; obligatoriedad funcional pendiente de acordar con SST.
 - [x] Crear prototipo interactivo de registro de asistencia con los campos del FM-SST-14.
-- [ ] Construir la evaluación de inducción SST (bloqueada hasta inspeccionar el PDF original FM-SST-16; el archivo está en el repositorio antiguo, pero las herramientas disponibles no logran extraer su contenido desde la URL. No inventar preguntas ni criterios de evaluación; solicitar adjuntar el PDF en el chat si no se puede obtener por otra vía).
+- [x] Inspeccionar el PDF original FM-SST-16 adjuntado por el usuario y documentar sus secciones y preguntas.
+- [x] Construir prototipo digital FM-SST-16 con preguntas abiertas, falso/verdadero, selección múltiple, pregunta de ARL, compromiso y firma.
+- [ ] Validar con SST la calificación de preguntas abiertas y el puntaje de la pregunta de ARL; no hay calificación automática hasta resolverlo.
+- [ ] Validar visualmente la impresión/PDF de FM-SST-16 contra la plantilla original.
 - [ ] Validar visualmente el PDF generado contra el original; logotipo vectorial actual es provisional.
 
 ## Fase 3 — Persistencia y permisos
