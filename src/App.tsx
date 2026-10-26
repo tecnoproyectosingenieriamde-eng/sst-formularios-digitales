@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import SignaturePad from './components/SignaturePad'
+import InductionEvaluation from './components/InductionEvaluation'
 import { Activity, ArrowLeft, ArrowRight, CalendarDays, ClipboardCheck, ClipboardList, Download, FileCheck2, FileText, MapPin, Menu, Search, ShieldCheck, UserRound, Users, X } from 'lucide-react'
 import { downloadAttendancePdf, type AttendanceParticipant, type AttendanceRecord } from './services/attendancePdf'
 
@@ -17,7 +18,7 @@ const newRecord = (): AttendanceRecord => ({ activity: '', date: localDate(), lo
 export default function App() {
   const [query, setQuery] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
-  const [activeForm, setActiveForm] = useState(false)
+  const [activeForm, setActiveForm] = useState<'FM-SST-14' | 'FM-SST-16' | null>(null)
   const [selectedForm, setSelectedForm] = useState<FormItem | null>(null)
   const [record, setRecord] = useState<AttendanceRecord>(newRecord)
   const [notice, setNotice] = useState('')
@@ -25,7 +26,7 @@ export default function App() {
   const visibleForms = forms.filter((form) => (form.code + ' ' + form.title + ' ' + form.category).toLowerCase().includes(query.toLowerCase()))
   const update = (key: keyof Omit<AttendanceRecord, 'participants'>, value: string) => setRecord((old) => ({ ...old, [key]: value }))
   const updatePerson = (index: number, key: keyof AttendanceParticipant, value: string) => setRecord((old) => ({ ...old, participants: old.participants.map((p, i) => i === index ? { ...p, [key]: value } : p) }))
-  const openForm = () => { setRecord(newRecord()); setNotice(''); setActiveForm(true) }
+  const openForm = () => { setRecord(newRecord()); setNotice(''); setActiveForm('FM-SST-14') }
   const exportPdf = async () => {
     setBusy(true); setNotice('')
     try { await downloadAttendancePdf(record); setNotice('PDF de revisión generado con la estructura de FM-SST-14. El logotipo es provisional y falta validación visual final.') }
@@ -46,8 +47,8 @@ export default function App() {
     </aside>
     {menuOpen && <button className="scrim" aria-label="Cerrar menú" onClick={() => setMenuOpen(false)} />}
     <main className="main-content" id="inicio">
-      <header className="topbar"><button className="icon-button mobile-menu" aria-label="Abrir menú" onClick={() => setMenuOpen(true)}><Menu size={22} /></button><div className="breadcrumb">Sistema SST <span>/</span> {activeForm ? 'Registro de asistencia' : 'Formularios digitales'}</div><div className="environment-pill"><span /> Entorno independiente</div></header>
-      {activeForm ? <section className="attendance-page">
+      <header className="topbar"><button className="icon-button mobile-menu" aria-label="Abrir menú" onClick={() => setMenuOpen(true)}><Menu size={22} /></button><div className="breadcrumb">Sistema SST <span>/</span> {activeForm === 'FM-SST-14' ? 'Registro de asistencia' : activeForm === 'FM-SST-16' ? 'Evaluación de inducción SST' : 'Formularios digitales'}</div><div className="environment-pill"><span /> Entorno independiente</div></header>
+      {activeForm === 'FM-SST-16' ? <InductionEvaluation onBack={() => setActiveForm(null)} /> : activeForm === 'FM-SST-14' ? <section className="attendance-page">
         <button className="back-link" onClick={() => setActiveForm(false)}><ArrowLeft size={16} /> Volver al catálogo</button>
         <div className="eyebrow"><span className="eyebrow-line" /> FORMULARIO EN DESARROLLO</div>
         <h1>Registro de <span>asistencia.</span></h1>
@@ -84,7 +85,7 @@ export default function App() {
         <section className="welcome-section"><div className="eyebrow"><span className="eyebrow-line" /> SEGURIDAD Y SALUD EN EL TRABAJO</div><h1>Formularios SST <span>digitales.</span></h1><p className="welcome-copy">Gestiona los formatos del Sistema de Seguridad y Salud en el Trabajo desde un solo lugar. Esta versión es un prototipo independiente para validar el flujo antes de conectar datos reales.</p><div className="welcome-meta"><div className="meta-icon"><ShieldCheck size={18} /></div><span>Desarrollo aislado</span><span className="meta-divider" /><span>Datos de prueba únicamente</span></div></section>
         <section className="stats-grid" aria-label="Resumen del módulo"><div className="stat-card"><div className="stat-icon green"><ClipboardList size={19} /></div><div><span>Formatos priorizados</span><strong>02</strong><small>Primera fase de desarrollo</small></div></div><div className="stat-card"><div className="stat-icon blue"><FileCheck2 size={19} /></div><div><span>Flujos iniciados</span><strong>01</strong><small>FM-SST-14 en prototipo</small></div></div><div className="stat-card"><div className="stat-icon amber"><Users size={19} /></div><div><span>Registros guardados</span><strong>—</strong><small>Persistencia aún no conectada</small></div></div></section>
         <section className="forms-section" id="formatos"><div className="section-heading"><div><span className="section-kicker">CATÁLOGO</span><h2>Formatos disponibles</h2><p>Selecciona un formato para abrirlo o revisar su estado.</p></div><label className="search-box"><Search size={18} /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar formato..." aria-label="Buscar formato" /></label></div>
-          <div className="forms-grid">{visibleForms.map((form) => { const Icon = form.icon; return <article className="form-card" key={form.code}><div className="card-topline"><div className="form-icon"><Icon size={21} /></div><span className={'status-tag ' + (form.planned ? 'planned' : '')}><span />{form.planned ? 'En planificación' : 'Prioridad inicial'}</span></div><div className="form-code">{form.code}</div><h3>{form.title}</h3><p>{form.description}</p><div className="card-footer"><span>{form.category}</span><button className="text-action" onClick={() => form.code === 'FM-SST-14' ? openForm() : setSelectedForm(form)}>{form.code === 'FM-SST-14' ? 'Abrir formulario' : 'Ver detalle'} <ArrowRight size={16} /></button></div></article> })}{visibleForms.length === 0 && <div className="empty-state">No encontramos formatos con “{query}”. Prueba otra búsqueda.</div>}</div>
+          <div className="forms-grid">{visibleForms.map((form) => { const Icon = form.icon; return <article className="form-card" key={form.code}><div className="card-topline"><div className="form-icon"><Icon size={21} /></div><span className={'status-tag ' + (form.planned ? 'planned' : '')}><span />{form.planned ? 'En planificación' : 'Prioridad inicial'}</span></div><div className="form-code">{form.code}</div><h3>{form.title}</h3><p>{form.description}</p><div className="card-footer"><span>{form.category}</span><button className="text-action" onClick={() => form.code === 'FM-SST-14' ? openForm() : form.code === 'FM-SST-16' ? (setActiveForm('FM-SST-16'), setSelectedForm(null)) : setSelectedForm(form)}>{form.code === 'FM-SST-14' || form.code === 'FM-SST-16' ? 'Abrir formulario' : 'Ver detalle'} <ArrowRight size={16} /></button></div></article> })}{visibleForms.length === 0 && <div className="empty-state">No encontramos formatos con “{query}”. Prueba otra búsqueda.</div>}</div>
         </section>
         <section className="roadmap-banner"><div className="roadmap-icon"><ShieldCheck size={22} /></div><div><strong>Diseñado para integrarse después</strong><p>Primero validamos formularios, permisos y generación de PDF en este entorno. La aplicación existente permanece intacta.</p></div><span className="roadmap-badge">FASE 1</span></section>
         <footer className="footer"><span>© Tecnoproyectos Ingeniería S.A.S.</span><span>Prototipo SST · No usar aún para registros oficiales</span></footer>
