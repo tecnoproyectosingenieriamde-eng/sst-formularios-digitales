@@ -6,6 +6,7 @@
 - [x] Marcar claramente que es un entorno de pruebas.
 - [x] Comprobar instalación de dependencias y compilación automática en GitHub Actions.
 - [ ] Ejecutar la aplicación en navegador y revisar diseño en escritorio y móvil (pendiente de prueba visual interactiva).
+- [x] Crear checklist de pruebas manuales funcionales, impresión, PDF y seguridad en `docs/PRUEBAS-MANUALES.md`.
 - [x] Ejecutar compilación CI de los cambios recientes; los commits `5f3f05e` y `7821c92` terminaron correctamente en GitHub Actions.
 
 ## Fase 2 — Formularios y PDF
