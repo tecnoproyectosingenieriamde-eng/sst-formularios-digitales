@@ -4,8 +4,8 @@
 - [x] Documentar arquitectura inicial.
 - [x] Crear interfaz base con catálogo y búsqueda.
 - [x] Marcar claramente que es un entorno de pruebas.
-- [ ] Instalar dependencias y ejecutar compilación local.
-- [ ] Revisar diseño en escritorio y móvil.
+- [x] Comprobar instalación de dependencias y compilación automática en GitHub Actions.
+- [ ] Ejecutar la aplicación en navegador y revisar diseño en escritorio y móvil.
 
 ## Fase 2 — Formularios y PDF
 - [ ] Inspeccionar las plantillas originales FM-SST-14 y FM-SST-16.
