@@ -148,3 +148,62 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   .status-tag { font-size: 8px; }
   .card-footer > span { max-width: 140px; line-height: 1.5; }
 }
+
+
+/* FM-SST-14: formulario de asistencia */
+.attendance-page { padding: 30px 0 20px; max-width: 1050px; }
+.back-link { display: inline-flex; align-items: center; gap: 7px; border: 0; padding: 5px 0; margin-bottom: 25px; background: transparent; color: #3a7558; font-size: 11px; font-weight: 700; cursor: pointer; }
+.draft-warning { display: flex; gap: 12px; align-items: flex-start; padding: 15px 16px; border: 1px solid #f0dfb8; background: #fff8e9; color: #8a6223; border-radius: 10px; margin: 22px 0 25px; }
+.draft-warning > svg { flex: 0 0 auto; margin-top: 1px; }
+.draft-warning strong { display: block; font-size: 12px; }
+.draft-warning p { margin: 5px 0 0; color: #876e43; font-size: 11px; line-height: 1.7; }
+.attendance-form { border: 1px solid #e4ebe6; background: #fff; border-radius: 13px; padding: 25px; box-shadow: 0 5px 20px #1b403505; }
+.form-section-title { display: flex; align-items: flex-start; gap: 12px; margin: 0 0 21px; }
+.section-number { display: grid; place-items: center; width: 31px; height: 31px; flex: 0 0 31px; border-radius: 8px; background: #e8f3ec; color: #347653; font: 800 11px Manrope, sans-serif; }
+.form-section-title h2 { margin: 1px 0 5px; font-size: 17px; }
+.form-section-title p { margin: 0; color: #7c8a83; font-size: 11px; line-height: 1.6; }
+.fields-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px 16px; }
+.field { display: flex; flex-direction: column; gap: 7px; min-width: 0; color: #34483e; font-size: 11px; font-weight: 600; }
+.field > span:first-child { line-height: 1.4; }
+.field b { color: #bc5a43; }
+.field.full { grid-column: 1 / -1; }
+.field input, .field textarea, .input-with-icon { width: 100%; min-width: 0; border: 1px solid #dce5df; border-radius: 7px; background: #fff; color: #24382e; font-size: 12px; font-weight: 400; }
+.field input { height: 41px; padding: 0 11px; }
+.field textarea { resize: vertical; min-height: 82px; padding: 11px; line-height: 1.6; }
+.field input::placeholder, .field textarea::placeholder { color: #a0aaa4; }
+.field input:focus, .field textarea:focus { outline: 2px solid #d2e8db; border-color: #76ad8c; }
+.field .input-with-icon { display: flex; align-items: center; gap: 8px; padding-left: 10px; color: #789087; }
+.field .input-with-icon input { border: 0; padding-left: 0; background: transparent; outline: none; }
+.field .input-with-icon:focus-within { outline: 2px solid #d2e8db; border-color: #76ad8c; }
+.time-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.time-pair .input-with-icon { padding-left: 9px; }
+.time-pair input { padding-right: 5px; }
+.participant-heading { margin-top: 32px; align-items: flex-start; }
+.participant-count { margin-left: auto; color: #72847a; font-size: 10px; white-space: nowrap; padding-top: 5px; }
+.participant-list { display: grid; gap: 12px; }
+.participant-row { border: 1px solid #e3ebe5; border-radius: 9px; padding: 14px; background: #fbfcfb; }
+.participant-row-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 13px; color: #61816f; font-size: 9px; font-weight: 800; letter-spacing: .1em; }
+.participant-fields { gap: 13px; }
+.remove-row { border: 0; background: transparent; color: #a94d42; font-size: 10px; cursor: pointer; }
+.secondary-button { min-height: 39px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 13px; border: 1px solid #d5e2d9; border-radius: 8px; background: #fff; color: #356c50; font-size: 11px; font-weight: 700; cursor: pointer; }
+.secondary-button:hover { background: #f3f8f4; }
+.add-participant { margin-top: 13px; }
+.observations-heading { margin-top: 32px; }
+.form-notice { display: flex; gap: 9px; align-items: flex-start; margin-top: 20px; padding: 12px; border-radius: 8px; background: #eaf5ed; color: #2f704d; font-size: 11px; line-height: 1.6; }
+.form-notice.error { background: #fff0ed; color: #a44737; }
+.form-notice svg { flex: 0 0 auto; }
+.form-actions { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 10px; border-top: 1px solid #e8eee9; margin-top: 24px; padding-top: 20px; }
+.primary-button:disabled { opacity: .65; cursor: wait; }
+.prototype-disclaimer { text-align: center; color: #929f97; font-size: 10px; padding: 15px 0 0; }
+@media (max-width: 760px) {
+  .attendance-page { padding-top: 22px; }
+  .attendance-form { padding: 17px 14px; }
+  .fields-grid { grid-template-columns: 1fr; gap: 14px; }
+  .field.full { grid-column: auto; }
+  .participant-heading { flex-wrap: wrap; }
+  .participant-count { margin-left: auto; }
+  .participant-fields { grid-template-columns: 1fr; }
+  .form-actions { flex-direction: column-reverse; align-items: stretch; }
+  .form-actions button { width: 100%; }
+  .draft-warning { padding: 12px; }
+}
