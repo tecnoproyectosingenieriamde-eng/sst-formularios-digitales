@@ -21,7 +21,8 @@
 - [ ] Validar visualmente el PDF generado contra el original; logotipo vectorial actual es provisional.
 
 ## Fase 3 — Persistencia y permisos
-- [ ] Definir roles con el responsable de SST.
+- [x] Preparar propuesta preliminar de datos y permisos en `docs/DISENO-DATOS-PERMISOS.md`.
+- [ ] Validar roles y reglas de acceso con el responsable de SST.
 - [ ] Crear esquema de base de datos y migraciones.
 - [ ] Implementar autenticación.
 - [ ] Implementar políticas de acceso y almacenamiento privado.
