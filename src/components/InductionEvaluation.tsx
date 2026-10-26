@@ -57,7 +57,7 @@ export default function InductionEvaluation({ onBack }: Props) {
   const [kind, setKind] = useState<'Inducción' | 'Re-inducción'>('Inducción')
   const [date, setDate] = useState(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` })
   const [answers, setAnswers] = useState<Record<string,string>>({})
-  const [arL, setArL] = useState('')
+  const [arL, setArL] = useState('Positiva')
   const [signature, setSignature] = useState('')
   const [notice, setNotice] = useState(false)
   const setAnswer = (key: string, value: string) => setAnswers(old => ({ ...old, [key]: value }))
@@ -66,7 +66,7 @@ export default function InductionEvaluation({ onBack }: Props) {
     <div className="eyebrow"><span className="eyebrow-line" /> FORMULARIO EN DESARROLLO</div>
     <h1>Evaluación de <span>inducción SST.</span></h1>
     <p className="welcome-copy">Formulario digital basado en FM-SST-16, versión 01 (22/06/2026). Las respuestas se mantienen temporalmente en este navegador y no se guardan en una base de datos.</p>
-    <div className="draft-warning no-print"><ShieldCheck size={20} /><div><strong>Formato en validación</strong><p>El documento original indica un punto por pregunta y aprobación con mínimo 12 puntos. La calificación automática está desactivada hasta validar cómo puntuar las preguntas abiertas y la pregunta de ARL. Usa únicamente datos ficticios.</p></div></div>
+    <div className="draft-warning no-print"><ShieldCheck size={20} /><div><strong>Formato en validación</strong><p>Todas las preguntas tienen el mismo valor: 1 punto por respuesta correcta. El formato establece aprobación con mínimo 12 puntos. Las preguntas abiertas requieren revisión humana; por eso el formulario no calcula todavía una nota automática. La ARL aparece inicialmente como Positiva, pero puedes editarla si cambia.</p></div></div>
     <form className="attendance-form" onSubmit={e => { e.preventDefault(); setNotice(true) }}>
       <div className="form-section-title"><span className="section-number">01</span><div><h2>Datos del colaborador</h2><p>Información de identificación y realización de la inducción.</p></div></div>
       <div className="fields-grid">
@@ -81,11 +81,11 @@ export default function InductionEvaluation({ onBack }: Props) {
       <div className="induction-questions">{trueFalse.map((q,i)=><fieldset className="choice-fieldset" key={q.key}><legend>{i+6}. {q.label}</legend><div className="radio-options"><label><input required type="radio" name={q.key} value="F" checked={answers[q.key]==='F'} onChange={e=>setAnswer(q.key,e.target.value)} /> Falso</label><label><input type="radio" name={q.key} value="V" checked={answers[q.key]==='V'} onChange={e=>setAnswer(q.key,e.target.value)} /> Verdadero</label></div></fieldset>)}</div>
       <div className="form-section-title participant-heading"><span className="section-number">04</span><div><h2>Selección múltiple</h2><p>De las tres opciones, marque la respuesta que considere correcta.</p></div></div>
       <div className="induction-questions">{multipleChoice.map((q,i)=><fieldset className="choice-fieldset" key={q.key}><legend>{i+8}. {q.label}</legend><div className="multiple-options">{q.options.map((option,j)=><label key={j}><input required type="radio" name={q.key} value={String.fromCharCode(65+j)} checked={answers[q.key]===String.fromCharCode(65+j)} onChange={e=>setAnswer(q.key,e.target.value)} /><span><b>{String.fromCharCode(97+j)})</b> {option}</span></label>)}</div></fieldset>)}
-      <label className="field"><span>¿A qué ARL quedará usted afiliado?</span><input maxLength={150} value={arL} onChange={e=>setArL(e.target.value)} /></label></div>
+      <label className="field"><span><b>15.</b> ¿A qué ARL quedará usted afiliado? <b>*</b></span><input required maxLength={150} value={arL} onChange={e=>setArL(e.target.value)} /></label></div>
       <div className="form-section-title participant-heading"><span className="section-number">05</span><div><h2>Compromiso y firma</h2><p>Compromiso transcrito del formato original.</p></div></div>
       <p className="commitment-text">Yo <strong>{name || '________________________________'}</strong>, me comprometo a cumplir y aplicar todas las normas y requerimientos de seguridad, salud en el trabajo y medio ambiente, al igual que las políticas internas de TECNOPROYECTOS INGENIERIA S.A.S., reportar todo acto y condición insegura, accidente de trabajo y enfermedad laboral.</p>
       <div className="signature-print-wrap"><SignaturePad label="Firma del colaborador" value={signature} onChange={setSignature} /></div>
-      {notice && <div className="form-notice no-print" role="status">Validación de campos completada. No se asignó puntaje ni resultado de aprobación automáticamente; la evaluación debe revisarse conforme a los criterios internos de SST.</div>}
+      {notice && <div className="form-notice no-print" role="status">Validación de campos completada. Los campos obligatorios están completos. Cada pregunta tiene el mismo valor (1 punto); las respuestas abiertas deben ser calificadas por el evaluador. No se calculó automáticamente el resultado.</div>}
       <div className="form-actions no-print"><button type="button" className="secondary-button" onClick={()=>{setName('');setCargo('');setKind('Inducción');setAnswers({});setArL('');setSignature('');setNotice(false)}}>Limpiar formulario</button><button type="button" className="secondary-button" onClick={()=>window.print()}><Printer size={17}/> Imprimir / guardar como PDF</button><button type="submit" className="primary-button">Validar campos</button></div>
     </form>
     <p className="prototype-disclaimer no-print">Prototipo de desarrollo · No usar todavía para evaluaciones oficiales.</p>
