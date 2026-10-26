@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import SignaturePad from './components/SignaturePad'
 import { Activity, ArrowLeft, ArrowRight, CalendarDays, ClipboardCheck, ClipboardList, Download, FileCheck2, FileText, MapPin, Menu, Search, ShieldCheck, UserRound, Users, X } from 'lucide-react'
 import { downloadAttendancePdf, type AttendanceParticipant, type AttendanceRecord } from './services/attendancePdf'
 
@@ -9,8 +10,8 @@ const forms: FormItem[] = [
   { code: 'FM-SST-15', title: 'Formato SST', category: 'Gestión SST', description: 'Se habilitará después de revisar la plantilla original.', icon: FileText, planned: true },
   { code: 'FM-SST-29', title: 'Autorreporte de actos inseguros', category: 'Reporte y prevención', description: 'Pendiente de revisar campos y flujo de aprobación.', icon: ShieldCheck, planned: true },
 ]
-const blankPerson = (): AttendanceParticipant => ({ name: '', identification: '', company: '', signature: '' })
-const newRecord = (): AttendanceRecord => ({ activity: '', date: new Date().toLocaleDateString('en-CA'), startTime: '', endTime: '', location: '', instructor: '', objective: '', observations: '', participants: [blankPerson()] })
+const blankPerson = (): AttendanceParticipant => ({ name: '', identification: '', cargo: '', signature: '' })
+const newRecord = (): AttendanceRecord => ({ activity: '', date: new Date().toLocaleDateString('en-CA'), location: '', responsible: '', facilitatorName: '', facilitatorRole: '', facilitatorSignature: '', observations: '', participants: [blankPerson()] })
 
 export default function App() {
   const [query, setQuery] = useState('')
@@ -49,31 +50,32 @@ export default function App() {
         <button className="back-link" onClick={() => setActiveForm(false)}><ArrowLeft size={16} /> Volver al catálogo</button>
         <div className="eyebrow"><span className="eyebrow-line" /> FORMULARIO EN DESARROLLO</div>
         <h1>Registro de <span>asistencia.</span></h1>
-        <p className="welcome-copy">Completa los datos de la actividad y registra participantes. Esta versión no guarda información en una base de datos.</p>
-        <div className="draft-warning"><ShieldCheck size={20} /><div><strong>Formato preliminar de pruebas</strong><p>El PDF es una maqueta, no la plantilla oficial FM-SST-14. Usa únicamente datos ficticios; no lo uses como evidencia oficial.</p></div></div>
+        <p className="welcome-copy">Completa los datos de la actividad, registra a los asistentes y captura sus firmas. Esta versión no guarda información en una base de datos.</p>
+        <div className="draft-warning"><ShieldCheck size={20} /><div><strong>Formato preliminar de pruebas</strong><p>El PDF es una maqueta rediseñada, no la plantilla original validada. Usa únicamente datos ficticios; no lo uses como evidencia oficial.</p></div></div>
         <form className="attendance-form" onSubmit={(event) => { event.preventDefault(); void exportPdf() }}>
           <div className="form-section-title"><span className="section-number">01</span><div><h2>Información de la actividad</h2><p>Completa los datos principales de la jornada.</p></div></div>
           <div className="fields-grid">
-            <label className="field full"><span>Actividad o tema <b>*</b></span><input required maxLength={180} value={record.activity} onChange={(e) => update('activity', e.target.value)} placeholder="Ej. Inducción en Seguridad y Salud en el Trabajo" /></label>
+            <label className="field full"><span>Tema / actividad <b>*</b></span><input required maxLength={180} value={record.activity} onChange={(e) => update('activity', e.target.value)} placeholder="Ej. Inducción en Seguridad y Salud en el Trabajo" /></label>
             <label className="field"><span>Fecha <b>*</b></span><span className="input-with-icon"><CalendarDays size={17} /><input type="date" required value={record.date} onChange={(e) => update('date', e.target.value)} /></span></label>
             <label className="field"><span>Lugar de la actividad <b>*</b></span><span className="input-with-icon"><MapPin size={17} /><input required maxLength={120} value={record.location} onChange={(e) => update('location', e.target.value)} placeholder="Lugar o sede" /></span></label>
-            <label className="field"><span>Responsable / facilitador <b>*</b></span><span className="input-with-icon"><UserRound size={17} /><input required maxLength={120} value={record.instructor} onChange={(e) => update('instructor', e.target.value)} placeholder="Responsable de la actividad" /></span></label>
-            <div className="field"><span>Horario (opcional)</span><div className="time-pair"><label className="input-with-icon"><input aria-label="Hora de inicio" type="time" value={record.startTime} onChange={(e) => update('startTime', e.target.value)} /></label><label className="input-with-icon"><input aria-label="Hora de finalización" type="time" value={record.endTime} onChange={(e) => update('endTime', e.target.value)} /></label></div></div>
-            <label className="field full"><span>Objetivo de la actividad <b>*</b></span><textarea required rows={3} maxLength={800} value={record.objective} onChange={(e) => update('objective', e.target.value)} placeholder="Describe el objetivo o los temas tratados" /></label>
+            <label className="field"><span>Responsable de la actividad <b>*</b></span><span className="input-with-icon"><UserRound size={17} /><input required maxLength={120} value={record.responsible} onChange={(e) => update('responsible', e.target.value)} placeholder="Responsable de la actividad" /></span></label>
+            <label className="field"><span>Nombre del facilitador <b>*</b></span><input required maxLength={120} value={record.facilitatorName} onChange={(e) => update('facilitatorName', e.target.value)} placeholder="Nombre del facilitador" /></label>
+            <label className="field"><span>Cargo del facilitador</span><input maxLength={100} value={record.facilitatorRole} onChange={(e) => update('facilitatorRole', e.target.value)} placeholder="Cargo" /></label>
           </div>
-          <div className="form-section-title participant-heading"><span className="section-number">02</span><div><h2>Participantes</h2><p>Agrega una fila por persona. Usa datos ficticios.</p></div><span className="participant-count">{record.participants.length} fila(s)</span></div>
+          <div className="form-section-title participant-heading"><span className="section-number">02</span><div><h2>Participantes</h2><p>Agrega una fila por persona. Registra el cargo y la firma de cada asistente.</p></div><span className="participant-count">{record.participants.length} fila(s)</span></div>
           <div className="participant-list">{record.participants.map((person, index) => <div className="participant-row" key={index}>
             <div className="participant-row-title"><span>PARTICIPANTE {String(index + 1).padStart(2, '0')}</span>{record.participants.length > 1 && <button type="button" className="remove-row" onClick={() => setRecord((old) => ({ ...old, participants: old.participants.filter((_, i) => i !== index) }))}>Quitar</button>}</div>
             <div className="fields-grid participant-fields">
               <label className="field"><span>Nombre completo</span><input maxLength={120} value={person.name} onChange={(e) => updatePerson(index, 'name', e.target.value)} placeholder="Nombre de prueba" /></label>
               <label className="field"><span>Identificación</span><input maxLength={40} value={person.identification} onChange={(e) => updatePerson(index, 'identification', e.target.value)} placeholder="Dato ficticio" /></label>
-              <label className="field"><span>Empresa / área</span><input maxLength={100} value={person.company} onChange={(e) => updatePerson(index, 'company', e.target.value)} placeholder="Empresa o área" /></label>
-              <label className="field"><span>Firma / confirmación</span><input maxLength={100} value={person.signature} onChange={(e) => updatePerson(index, 'signature', e.target.value)} placeholder="Confirmación de prueba" /></label>
+              <label className="field"><span>Cargo</span><input maxLength={100} value={person.cargo} onChange={(e) => updatePerson(index, 'cargo', e.target.value)} placeholder="Cargo del asistente" /></label>
+              <SignaturePad label="Firma del asistente" value={person.signature} onChange={(value) => updatePerson(index, 'signature', value)} />
             </div>
           </div>)}</div>
           <button type="button" className="secondary-button add-participant" onClick={() => setRecord((old) => ({ ...old, participants: [...old.participants, blankPerson()] }))}><Users size={17} /> Agregar participante</button>
           <div className="form-section-title observations-heading"><span className="section-number">03</span><div><h2>Observaciones</h2><p>Información complementaria (opcional).</p></div></div>
           <label className="field"><span>Observaciones</span><textarea rows={3} maxLength={1000} value={record.observations} onChange={(e) => update('observations', e.target.value)} placeholder="Observaciones adicionales, si aplica" /></label>
+          <div className="facilitator-signature"><SignaturePad label="Firma del facilitador" value={record.facilitatorSignature} onChange={(value) => update('facilitatorSignature', value)} /></div>
           {notice && <div className={'form-notice ' + (notice.startsWith('No se') ? 'error' : '')} role="status">{notice}</div>}
           <div className="form-actions"><button type="button" className="secondary-button" onClick={() => { setRecord(newRecord()); setNotice('') }}>Limpiar formulario</button><button type="submit" className="primary-button" disabled={busy}>{busy ? 'Generando PDF…' : 'Generar PDF preliminar'} <Download size={17} /></button></div>
         </form>
