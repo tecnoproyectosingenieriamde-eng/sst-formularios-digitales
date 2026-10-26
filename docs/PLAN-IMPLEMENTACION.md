@@ -9,7 +9,7 @@
 - [x] Ejecutar compilación CI de los cambios recientes; los commits `5f3f05e` y `7821c92` terminaron correctamente en GitHub Actions.
 
 ## Fase 2 — Formularios y PDF
-- [x] Inspeccionar la plantilla original FM-SST-14 (PDF adjunto por el usuario); FM-SST-16 sigue pendiente.
+- [x] Inspeccionar las plantillas originales FM-SST-14 y FM-SST-16 compartidas por el usuario.
 - [x] Documentar los campos visibles de FM-SST-14; obligatoriedad funcional pendiente de acordar con SST.
 - [x] Crear prototipo interactivo de registro de asistencia con los campos del FM-SST-14.
 - [x] Inspeccionar el PDF original FM-SST-16 adjuntado por el usuario y documentar sus secciones y preguntas.
