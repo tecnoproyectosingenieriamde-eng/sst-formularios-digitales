@@ -6,13 +6,13 @@
 - [x] Marcar claramente que es un entorno de pruebas.
 - [x] Comprobar instalación de dependencias y compilación automática en GitHub Actions.
 - [ ] Ejecutar la aplicación en navegador y revisar diseño en escritorio y móvil (pendiente de prueba visual interactiva).
-- [x] Ejecutar compilación CI de los cambios recientes; el commit `5f3f05e` terminó correctamente en GitHub Actions.
+- [x] Ejecutar compilación CI de los cambios recientes; los commits `5f3f05e` y `7821c92` terminaron correctamente en GitHub Actions.
 
 ## Fase 2 — Formularios y PDF
 - [x] Inspeccionar la plantilla original FM-SST-14 (PDF adjunto por el usuario); FM-SST-16 sigue pendiente.
 - [x] Documentar los campos visibles de FM-SST-14; obligatoriedad funcional pendiente de acordar con SST.
 - [x] Crear prototipo interactivo de registro de asistencia con los campos del FM-SST-14.
-- [ ] Construir la evaluación de inducción SST.
+- [ ] Construir la evaluación de inducción SST (bloqueada hasta inspeccionar el PDF original FM-SST-16; el archivo está en el repositorio antiguo, pero las herramientas disponibles no logran extraer su contenido desde la URL. No inventar preguntas ni criterios de evaluación; solicitar adjuntar el PDF en el chat si no se puede obtener por otra vía).
 - [ ] Validar visualmente el PDF generado contra el original; logotipo vectorial actual es provisional.
 
 ## Fase 3 — Persistencia y permisos
