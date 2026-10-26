@@ -1,20 +1,20 @@
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
+import { PDFDocument, StandardFonts, rgb, type PDFPage } from 'pdf-lib'
 
 export type AttendanceParticipant = {
   name: string
   identification: string
-  company: string
+  cargo: string
   signature: string
 }
 
 export type AttendanceRecord = {
   activity: string
   date: string
-  startTime: string
-  endTime: string
   location: string
-  instructor: string
-  objective: string
+  responsible: string
+  facilitatorName: string
+  facilitatorRole: string
+  facilitatorSignature: string
   observations: string
   participants: AttendanceParticipant[]
 }
@@ -23,137 +23,164 @@ function safeFileName(value: string) {
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9-_]+/g, '-').replace(/^-|-$/g, '').slice(0, 55) || 'registro'
 }
 
+function signatureBytes(dataUrl: string): Uint8Array | null {
+  if (!dataUrl.startsWith('data:image/png;base64,')) return null
+  const binary = atob(dataUrl.slice('data:image/png;base64,'.length))
+  const bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i)
+  return bytes
+}
+
 export async function downloadAttendancePdf(record: AttendanceRecord) {
   const pdf = await PDFDocument.create()
   const regular = await pdf.embedFont(StandardFonts.Helvetica)
   const bold = await pdf.embedFont(StandardFonts.HelveticaBold)
   const pageWidth = 595.28
   const pageHeight = 841.89
-  const margin = 42
-  const ink = rgb(0.12, 0.22, 0.18)
-  const muted = rgb(0.38, 0.44, 0.41)
-  const green = rgb(0.12, 0.33, 0.26)
+  const margin = 38
+  const ink = rgb(0.12, 0.19, 0.16)
+  const muted = rgb(0.38, 0.45, 0.41)
+  const green = rgb(0.12, 0.31, 0.24)
   const pale = rgb(0.91, 0.95, 0.92)
-  let page = pdf.addPage([pageWidth, pageHeight])
-  let y = pageHeight - margin
+  const line = rgb(0.80, 0.85, 0.82)
+  let page: PDFPage
+  let y = 0
+  let pageNumber = 0
 
+  const drawText = (value: string, x: number, top: number, size = 9, font = regular, color = ink, maxWidth = pageWidth - margin - x) => {
+    page.drawText(value || '-', { x, y: top - size, size, font, color, maxWidth })
+  }
   const addPage = () => {
     page = pdf.addPage([pageWidth, pageHeight])
-    y = pageHeight - margin
+    pageNumber += 1
+    page.drawRectangle({ x: 0, y: pageHeight - 78, width: pageWidth, height: 78, color: green })
+    drawText('TECNOPROYECTOS INGENIERÍA S.A.S.', margin, pageHeight - 18, 9, bold, rgb(1, 1, 1))
+    drawText('SISTEMA DE SEGURIDAD Y SALUD EN EL TRABAJO', margin, pageHeight - 34, 7.5, regular, rgb(0.88, 0.94, 0.90))
+    drawText('FM-SST-14 · REGISTRO DE ASISTENCIA', margin, pageHeight - 52, 12, bold, rgb(1, 1, 1))
+    page.drawRectangle({ x: margin, y: pageHeight - 112, width: pageWidth - margin * 2, height: 23, color: rgb(1, 0.96, 0.87) })
+    drawText('BORRADOR DE REVISIÓN', margin + 8, pageHeight - 96, 8, bold, rgb(0.52, 0.34, 0.08))
+    drawText('Maqueta rediseñada: no es la plantilla institucional original validada.', margin + 8, pageHeight - 106, 6.5, regular, rgb(0.52, 0.34, 0.08))
+    y = pageHeight - 132
   }
   const ensureSpace = (height: number) => {
-    if (y - height < margin) addPage()
-  }
-  const text = (value: string, x: number, top: number, size = 9, font = regular, color = ink) => {
-    page.drawText(value || '—', { x, y: top - size, size, font, color, maxWidth: pageWidth - margin - x })
-  }
-  const wrapText = (value: string, maxChars = 90) => {
-    const words = (value || '—').split(/\s+/)
-    const lines: string[] = []
-    let line = ''
-    for (const word of words) {
-      if (line && `${line} ${word}`.length > maxChars) {
-        lines.push(line)
-        line = word
-      } else {
-        line = line ? `${line} ${word}` : word
-      }
-    }
-    if (line) lines.push(line)
-    return lines
+    if (y - height < 55) addPage()
   }
   const section = (title: string) => {
-    ensureSpace(30)
-    page.drawRectangle({ x: margin, y: y - 19, width: pageWidth - margin * 2, height: 22, color: pale })
-    text(title.toUpperCase(), margin + 8, y - 3, 9, bold, green)
-    y -= 31
+    ensureSpace(28)
+    page.drawRectangle({ x: margin, y: y - 18, width: pageWidth - margin * 2, height: 21, color: pale })
+    drawText(title.toUpperCase(), margin + 7, y - 3, 8, bold, green)
+    y -= 28
   }
   const field = (label: string, value: string, x: number, width: number) => {
-    text(label.toUpperCase(), x, y, 7, bold, muted)
-    const lines = wrapText(value, Math.max(18, Math.floor(width / 5.2))).slice(0, 3)
-    lines.forEach((line, index) => text(line, x, y - 12 - index * 12, 9, regular, ink))
+    drawText(label.toUpperCase(), x, y, 6.5, bold, muted, width)
+    const maxChars = Math.max(15, Math.floor(width / 5.1))
+    const words = (value || '-').split(/\s+/)
+    const lines: string[] = []
+    let current = ''
+    for (const word of words) {
+      if (current && (current + ' ' + word).length > maxChars) {
+        lines.push(current)
+        current = word
+      } else current = current ? current + ' ' + word : word
+    }
+    if (current) lines.push(current)
+    lines.slice(0, 2).forEach((valueLine, index) => drawText(valueLine, x, y + 11 + index * 11, 8.5, regular, ink, width))
+  }
+  const drawFooter = () => {
+    page.drawLine({ start: { x: margin, y: 34 }, end: { x: pageWidth - margin, y: 34 }, thickness: 0.5, color: line })
+    page.drawText('Documento de trabajo · No usar como formato oficial sin validar la plantilla', { x: margin, y: 20, size: 6.5, font: regular, color: muted })
+    page.drawText('Página ' + pageNumber, { x: pageWidth - margin - 45, y: 20, size: 6.5, font: regular, color: muted })
   }
 
-  page.drawRectangle({ x: 0, y: pageHeight - 95, width: pageWidth, height: 95, color: green })
-  text('TECNOPROYECTOS INGENIERÍA S.A.S.', margin, pageHeight - 25, 10, bold, rgb(1, 1, 1))
-  text('SISTEMA DE SEGURIDAD Y SALUD EN EL TRABAJO', margin, pageHeight - 44, 8, regular, rgb(0.87, 0.94, 0.89))
-  text('FM-SST-14 · REGISTRO DE ASISTENCIA', margin, pageHeight - 66, 14, bold, rgb(1, 1, 1))
-  y = pageHeight - 120
-
-  page.drawRectangle({ x: margin, y: y - 34, width: pageWidth - margin * 2, height: 38, color: rgb(1, 0.96, 0.87) })
-  text('BORRADOR DE REVISIÓN', margin + 9, y - 7, 9, bold, rgb(0.52, 0.34, 0.08))
-  text('No es la plantilla oficial validada. Verificar el diseño antes de usarlo como registro oficial.', margin + 9, y - 21, 7, regular, rgb(0.52, 0.34, 0.08))
-  y -= 55
-
+  addPage()
   section('1. Información de la actividad')
-  field('Actividad / tema', record.activity, margin, 310)
-  field('Fecha', record.date, 390, 150)
-  y -= 35
+  field('Tema / actividad', record.activity, margin, 320)
+  field('Fecha', record.date, margin + 340, 170)
+  y -= 31
   field('Lugar', record.location, margin, 240)
-  field('Responsable / facilitador', record.instructor, 310, 230)
-  y -= 35
-  field('Hora de inicio', record.startTime, margin, 220)
-  field('Hora de finalización', record.endTime, 310, 230)
+  field('Responsable de la actividad', record.responsible, margin + 260, 230)
+  y -= 31
+  field('Nombre del facilitador', record.facilitatorName, margin, 240)
+  field('Cargo del facilitador', record.facilitatorRole, margin + 260, 230)
   y -= 35
 
-  section('2. Objetivo de la actividad')
-  for (const line of wrapText(record.objective, 100)) {
-    ensureSpace(14)
-    text(line, margin, y, 9)
-    y -= 13
-  }
-  y -= 7
-
-  section('3. Participantes')
-  const columns = [
-    { label: 'NOMBRE COMPLETO', x: margin + 5, width: 180 },
-    { label: 'IDENTIFICACIÓN', x: margin + 190, width: 90 },
-    { label: 'EMPRESA / ÁREA', x: margin + 285, width: 105 },
-    { label: 'FIRMA / CONFIRMACIÓN', x: margin + 395, width: 110 },
+  section('2. Registro de asistentes')
+  const tableX = margin
+  const tableWidth = pageWidth - margin * 2
+  const cols = [
+    { label: 'NOMBRE COMPLETO', x: tableX + 6, width: 160 },
+    { label: 'IDENTIFICACIÓN', x: tableX + 170, width: 95 },
+    { label: 'CARGO', x: tableX + 270, width: 105 },
+    { label: 'FIRMA', x: tableX + 380, width: 135 },
   ]
-  const drawParticipantHeader = () => {
-    page.drawRectangle({ x: margin, y: y - 20, width: pageWidth - margin * 2, height: 23, color: green })
-    columns.forEach((column) => text(column.label, column.x, y - 4, 6.2, bold, rgb(1, 1, 1)))
-    y -= 26
+  const drawTableHeader = () => {
+    page.drawRectangle({ x: tableX, y: y - 19, width: tableWidth, height: 22, color: green })
+    cols.forEach((col) => drawText(col.label, col.x, y - 3, 6.5, bold, rgb(1, 1, 1), col.width))
+    y -= 22
   }
-  drawParticipantHeader()
-  const participants = record.participants.filter((person) => person.name.trim() || person.identification.trim() || person.company.trim() || person.signature.trim())
-  for (const [index, person] of participants.entries()) {
-    ensureSpace(28)
-    if (y === pageHeight - margin - 55) drawParticipantHeader()
-    if (index % 2 === 0) page.drawRectangle({ x: margin, y: y - 20, width: pageWidth - margin * 2, height: 23, color: rgb(0.97, 0.98, 0.97) })
-    const values = [person.name, person.identification, person.company, person.signature]
-    values.forEach((value, columnIndex) => {
-      const column = columns[columnIndex]
-      const clean = (value || '—').slice(0, columnIndex === 0 ? 32 : 19)
-      text(clean, column.x, y - 5, 7.3)
-    })
-    y -= 23
+  drawTableHeader()
+  const people = record.participants.filter((person) => person.name.trim() || person.identification.trim() || person.cargo.trim() || person.signature)
+  if (people.length === 0) {
+    page.drawRectangle({ x: tableX, y: y - 24, width: tableWidth, height: 25, color: rgb(0.98, 0.99, 0.98), borderColor: line, borderWidth: 0.4 })
+    drawText('Sin asistentes registrados', tableX + 6, y - 6, 8, regular, muted)
+    y -= 25
   }
-  if (participants.length === 0) {
-    text('No se han agregado participantes.', margin + 5, y - 5, 8, regular, muted)
-    y -= 23
+  for (const [index, person] of people.entries()) {
+    ensureSpace(31)
+    if (y < pageHeight - 180 && y < 100) drawTableHeader()
+    const rowHeight = 29
+    page.drawRectangle({ x: tableX, y: y - rowHeight + 4, width: tableWidth, height: rowHeight, color: index % 2 === 0 ? rgb(0.97, 0.98, 0.97) : rgb(1, 1, 1), borderColor: line, borderWidth: 0.35 })
+    drawText(person.name.slice(0, 38), cols[0].x, y - 5, 7.2, regular, ink, cols[0].width)
+    drawText(person.identification.slice(0, 22), cols[1].x, y - 5, 7.2, regular, ink, cols[1].width)
+    drawText(person.cargo.slice(0, 25), cols[2].x, y - 5, 7.2, regular, ink, cols[2].width)
+    const bytes = signatureBytes(person.signature)
+    if (bytes) {
+      try {
+        const image = await pdf.embedPng(bytes)
+        page.drawImage(image, { x: cols[3].x, y: y - 23, width: 85, height: 22 })
+      } catch {
+        drawText('Firma no válida', cols[3].x, y - 5, 6.5, regular, muted)
+      }
+    } else drawText('Sin firma', cols[3].x, y - 5, 6.5, regular, muted)
+    y -= rowHeight
   }
   y -= 12
-
-  section('4. Observaciones')
-  for (const line of wrapText(record.observations, 100)) {
-    ensureSpace(14)
-    text(line, margin, y, 9)
-    y -= 13
+  section('3. Observaciones')
+  const observations = (record.observations || '-').split(/\s+/)
+  let observationLine = ''
+  for (const word of observations) {
+    if (observationLine && (observationLine + ' ' + word).length > 95) {
+      ensureSpace(13)
+      drawText(observationLine, margin, y, 8.5)
+      y -= 12
+      observationLine = word
+    } else observationLine = observationLine ? observationLine + ' ' + word : word
   }
-  y -= 25
-  ensureSpace(60)
-  page.drawLine({ start: { x: margin + 10, y }, end: { x: margin + 205, y }, thickness: 0.7, color: muted })
-  page.drawLine({ start: { x: pageWidth - margin - 205, y }, end: { x: pageWidth - margin - 10, y }, thickness: 0.7, color: muted })
-  text('Firma del responsable', margin + 10, y - 7, 8, regular, muted)
-  text('Revisión SST', pageWidth - margin - 205, y - 7, 8, regular, muted)
-
+  if (observationLine) {
+    ensureSpace(13)
+    drawText(observationLine, margin, y, 8.5)
+    y -= 12
+  }
+  y -= 16
+  ensureSpace(70)
+  drawText('FACILITADOR: ' + record.facilitatorName, margin, y, 7, bold, muted)
+  y -= 10
+  const facilitatorBytes = signatureBytes(record.facilitatorSignature)
+  if (facilitatorBytes) {
+    try {
+      const image = await pdf.embedPng(facilitatorBytes)
+      page.drawImage(image, { x: margin, y: y - 34, width: 135, height: 34 })
+    } catch {
+      drawText('Firma no válida', margin, y, 7, regular, muted)
+    }
+  } else drawText('Firma pendiente', margin, y, 7, regular, muted)
+  y -= 42
+  drawText('Firma del facilitador', margin, y, 7, regular, muted)
   const pages = pdf.getPages()
   pages.forEach((current, index) => {
-    current.drawLine({ start: { x: margin, y: 28 }, end: { x: pageWidth - margin, y: 28 }, thickness: 0.5, color: rgb(0.85, 0.88, 0.86) })
-    current.drawText('Documento de trabajo · No usar como formato oficial sin validar la plantilla', { x: margin, y: 15, size: 7, font: regular, color: muted })
-    current.drawText(`Página ${index + 1} de ${pages.length}`, { x: pageWidth - margin - 70, y: 15, size: 7, font: regular, color: muted })
+    current.drawLine({ start: { x: margin, y: 34 }, end: { x: pageWidth - margin, y: 34 }, thickness: 0.5, color: line })
+    current.drawText('Documento de trabajo · No usar como formato oficial sin validar la plantilla', { x: margin, y: 20, size: 6.5, font: regular, color: muted })
+    current.drawText('Página ' + (index + 1) + ' de ' + pages.length, { x: pageWidth - margin - 70, y: 20, size: 6.5, font: regular, color: muted })
   })
 
   const bytes = await pdf.save()
@@ -161,7 +188,7 @@ export async function downloadAttendancePdf(record: AttendanceRecord) {
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')
   anchor.href = url
-  anchor.download = `FM-SST-14-${safeFileName(record.activity)}.pdf`
+  anchor.download = 'FM-SST-14-' + safeFileName(record.activity) + '.pdf'
   document.body.appendChild(anchor)
   anchor.click()
   anchor.remove()
