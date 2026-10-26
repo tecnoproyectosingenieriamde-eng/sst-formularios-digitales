@@ -11,7 +11,8 @@ const forms: FormItem[] = [
   { code: 'FM-SST-29', title: 'Autorreporte de actos inseguros', category: 'Reporte y prevención', description: 'Pendiente de revisar campos y flujo de aprobación.', icon: ShieldCheck, planned: true },
 ]
 const blankPerson = (): AttendanceParticipant => ({ name: '', identification: '', cargo: '', signature: '' })
-const newRecord = (): AttendanceRecord => ({ activity: '', date: new Date().toLocaleDateString('en-CA'), location: '', responsible: '', facilitatorName: '', facilitatorSignature: '', observations: '', participants: [blankPerson()] })
+const localDate = () => { const now = new Date(); const year = now.getFullYear(); const month = String(now.getMonth() + 1).padStart(2, '0'); const day = String(now.getDate()).padStart(2, '0'); return `${year}-${month}-${day}` }
+const newRecord = (): AttendanceRecord => ({ activity: '', date: localDate(), location: '', responsible: '', facilitatorName: '', facilitatorSignature: '', observations: '', participants: [blankPerson()] })
 
 export default function App() {
   const [query, setQuery] = useState('')
