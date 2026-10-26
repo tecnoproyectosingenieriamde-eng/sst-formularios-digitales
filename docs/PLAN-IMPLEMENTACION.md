@@ -6,13 +6,14 @@
 - [x] Marcar claramente que es un entorno de pruebas.
 - [x] Comprobar instalación de dependencias y compilación automática en GitHub Actions.
 - [ ] Ejecutar la aplicación en navegador y revisar diseño en escritorio y móvil.
+- [ ] Ejecutar compilación CI de los cambios recientes y corregir errores si aparecen.
 
 ## Fase 2 — Formularios y PDF
-- [ ] Inspeccionar las plantillas originales FM-SST-14 y FM-SST-16.
-- [ ] Documentar campos, obligatoriedad y reglas de validación.
-- [x] Crear prototipo interactivo de registro de asistencia (pendiente validar campos oficiales).
+- [x] Inspeccionar la plantilla original FM-SST-14 (PDF adjunto por el usuario); FM-SST-16 sigue pendiente.
+- [x] Documentar los campos visibles de FM-SST-14; obligatoriedad funcional pendiente de acordar con SST.
+- [x] Crear prototipo interactivo de registro de asistencia con los campos del FM-SST-14.
 - [ ] Construir la evaluación de inducción SST.
-- [ ] Alinear los datos con la plantilla oficial y verificar visualmente el PDF (pendiente).
+- [ ] Validar visualmente el PDF generado contra el original; logotipo vectorial actual es provisional.
 
 ## Fase 3 — Persistencia y permisos
 - [ ] Definir roles con el responsable de SST.
