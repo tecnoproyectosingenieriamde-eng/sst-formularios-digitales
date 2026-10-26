@@ -3,6 +3,7 @@ import { ArrowLeft, Printer, ShieldCheck } from 'lucide-react'
 import SignaturePad from './SignaturePad'
 
 type Props = { onBack: () => void }
+const DEFAULT_ARL = 'Positiva'
 const openQuestions = [
   { key: 'policy', label: '¿Cuál es el objetivo de la política de seguridad y salud en el trabajo de TECNOPROYECTOS INGENIERIA S.A.S.?', rows: 3 },
   { key: 'responsibilities', label: 'Enuncie TRES de sus responsabilidades en seguridad y salud en el trabajo.', rows: 3 },
@@ -57,7 +58,7 @@ export default function InductionEvaluation({ onBack }: Props) {
   const [kind, setKind] = useState<'Inducción' | 'Re-inducción'>('Inducción')
   const [date, setDate] = useState(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` })
   const [answers, setAnswers] = useState<Record<string,string>>({})
-  const [arL, setArL] = useState('Positiva')
+  const [arL, setArL] = useState(DEFAULT_ARL)
   const [signature, setSignature] = useState('')
   const [notice, setNotice] = useState(false)
   const setAnswer = (key: string, value: string) => setAnswers(old => ({ ...old, [key]: value }))
@@ -86,7 +87,7 @@ export default function InductionEvaluation({ onBack }: Props) {
       <p className="commitment-text">Yo <strong>{name || '________________________________'}</strong>, me comprometo a cumplir y aplicar todas las normas y requerimientos de seguridad, salud en el trabajo y medio ambiente, al igual que las políticas internas de TECNOPROYECTOS INGENIERIA S.A.S., reportar todo acto y condición insegura, accidente de trabajo y enfermedad laboral.</p>
       <div className="signature-print-wrap"><SignaturePad label="Firma del colaborador" value={signature} onChange={setSignature} /></div>
       {notice && <div className="form-notice no-print" role="status">Validación de campos completada. Los campos obligatorios están completos. Cada pregunta tiene el mismo valor (1 punto); las respuestas abiertas deben ser calificadas por el evaluador. No se calculó automáticamente el resultado.</div>}
-      <div className="form-actions no-print"><button type="button" className="secondary-button" onClick={()=>{setName('');setCargo('');setKind('Inducción');setAnswers({});setArL('');setSignature('');setNotice(false)}}>Limpiar formulario</button><button type="button" className="secondary-button" onClick={()=>window.print()}><Printer size={17}/> Imprimir / guardar como PDF</button><button type="submit" className="primary-button">Validar campos</button></div>
+      <div className="form-actions no-print"><button type="button" className="secondary-button" onClick={()=>{setName('');setCargo('');setKind('Inducción');setAnswers({});setArL(DEFAULT_ARL);setSignature('');setNotice(false)}}>Limpiar formulario</button><button type="button" className="secondary-button" onClick={()=>window.print()}><Printer size={17}/> Imprimir / guardar como PDF</button><button type="submit" className="primary-button">Validar campos</button></div>
     </form>
     <p className="prototype-disclaimer no-print">Prototipo de desarrollo · No usar todavía para evaluaciones oficiales.</p>
   </section>
