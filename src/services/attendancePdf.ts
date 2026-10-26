@@ -65,7 +65,7 @@ export async function downloadAttendancePdf(record: AttendanceRecord) {
   const blue = rgb(0.10, 0.34, 0.55)
   const pale = rgb(0.94, 0.96, 0.97)
   const red = rgb(0.58, 0.20, 0.13)
-  let page: PDFPage
+  let page = {} as PDFPage
   let pageNo = 0
   let y = 0
 
