@@ -39,8 +39,8 @@ export default function App() {
       <div className="brand"><div className="brand-mark"><Activity size={23} /></div><div><strong>TECNOPROYECTOS</strong><span>INGENIERÍA S.A.S.</span></div><button className="icon-button mobile-close" aria-label="Cerrar menú" onClick={() => setMenuOpen(false)}><X size={20} /></button></div>
       <div className="workspace-label">MÓDULO INDEPENDIENTE</div>
       <nav className="side-nav" aria-label="Navegación principal">
-        <a className={'nav-link ' + (!activeForm ? 'active' : '')} href="#inicio" onClick={() => { setActiveForm(false); setMenuOpen(false) }}><ClipboardList size={18} /> Formularios SST</a>
-        <a className="nav-link" href="#formatos" onClick={() => { setActiveForm(false); setMenuOpen(false) }}><FileCheck2 size={18} /> Catálogo de formatos</a>
+        <a className={'nav-link ' + (!activeForm ? 'active' : '')} href="#inicio" onClick={() => { setActiveForm(null); setMenuOpen(false) }}><ClipboardList size={18} /> Formularios SST</a>
+        <a className="nav-link" href="#formatos" onClick={() => { setActiveForm(null); setMenuOpen(false) }}><FileCheck2 size={18} /> Catálogo de formatos</a>
         <span className="nav-link disabled"><Users size={18} /> Registros <span className="nav-soon">Próximamente</span></span>
       </nav>
       <div className="sidebar-bottom"><div className="security-note"><ShieldCheck size={19} /><div><strong>Entorno de pruebas</strong><span>Sin conexión a producción</span></div></div><span className="version-label">Versión inicial · 0.2.0</span></div>
@@ -49,7 +49,7 @@ export default function App() {
     <main className="main-content" id="inicio">
       <header className="topbar"><button className="icon-button mobile-menu" aria-label="Abrir menú" onClick={() => setMenuOpen(true)}><Menu size={22} /></button><div className="breadcrumb">Sistema SST <span>/</span> {activeForm === 'FM-SST-14' ? 'Registro de asistencia' : activeForm === 'FM-SST-16' ? 'Evaluación de inducción SST' : 'Formularios digitales'}</div><div className="environment-pill"><span /> Entorno independiente</div></header>
       {activeForm === 'FM-SST-16' ? <InductionEvaluation onBack={() => setActiveForm(null)} /> : activeForm === 'FM-SST-14' ? <section className="attendance-page">
-        <button className="back-link" onClick={() => setActiveForm(false)}><ArrowLeft size={16} /> Volver al catálogo</button>
+        <button className="back-link" onClick={() => setActiveForm(null)}><ArrowLeft size={16} /> Volver al catálogo</button>
         <div className="eyebrow"><span className="eyebrow-line" /> FORMULARIO EN DESARROLLO</div>
         <h1>Registro de <span>asistencia.</span></h1>
         <p className="welcome-copy">Completa los datos de la actividad, registra a los asistentes y captura sus firmas. Esta versión no guarda información en una base de datos.</p>
