@@ -43,7 +43,7 @@ export async function downloadAttendancePdf(record: AttendanceRecord) {
   const green = rgb(0.12, 0.31, 0.24)
   const pale = rgb(0.91, 0.95, 0.92)
   const line = rgb(0.80, 0.85, 0.82)
-  let page: PDFPage
+  let page = {} as PDFPage
   let y = 0
   let pageNumber = 0
 
@@ -86,12 +86,6 @@ export async function downloadAttendancePdf(record: AttendanceRecord) {
     if (current) lines.push(current)
     lines.slice(0, 2).forEach((valueLine, index) => drawText(valueLine, x, y + 11 + index * 11, 8.5, regular, ink, width))
   }
-  const drawFooter = () => {
-    page.drawLine({ start: { x: margin, y: 34 }, end: { x: pageWidth - margin, y: 34 }, thickness: 0.5, color: line })
-    page.drawText('Documento de trabajo · No usar como formato oficial sin validar la plantilla', { x: margin, y: 20, size: 6.5, font: regular, color: muted })
-    page.drawText('Página ' + pageNumber, { x: pageWidth - margin - 45, y: 20, size: 6.5, font: regular, color: muted })
-  }
-
   addPage()
   section('1. Información de la actividad')
   field('Tema / actividad', record.activity, margin, 320)
