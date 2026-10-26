@@ -16,9 +16,11 @@ Aplicación independiente para diligenciar formularios del Sistema de Gestión d
 ## Estado actual del prototipo
 
 - Catálogo inicial con búsqueda de formatos.
-- Formulario FM-SST-14 con validaciones básicas y filas dinámicas de participantes.
+- Formulario FM-SST-14 con validaciones básicas, filas dinámicas de participantes y captura de firmas.
 - Captura de firmas dibujadas para asistentes y facilitador (solo en memoria del navegador).
-- Generación de un PDF preliminar para revisión, no basado todavía en la plantilla oficial.
+- Generación de un PDF preliminar para revisión; aún requiere comparación visual con la plantilla oficial.
+- Formulario FM-SST-16 basado en la plantilla original, con preguntas abiertas, falso/verdadero, selección múltiple, pregunta de ARL editable (valor inicial: Positiva), compromiso y firma.
+- Cada pregunta tiene el mismo valor previsto de 1 punto; las respuestas abiertas requieren revisión humana y el cálculo automático del resultado sigue pendiente.
 - Compilación automatizada en GitHub Actions; se deben completar pruebas funcionales y revisión visual.
 - Sin autenticación, persistencia ni almacenamiento remoto en esta etapa.
 
