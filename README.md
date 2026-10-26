@@ -13,6 +13,15 @@ Aplicación independiente para diligenciar formularios del Sistema de Gestión d
 - Auditoría básica de autoría y fechas.
 - Integración futura mediante una interfaz definida, sin acoplar el módulo a la aplicación principal.
 
+## Estado actual del prototipo
+
+- Catálogo inicial con búsqueda de formatos.
+- Formulario FM-SST-14 con validaciones básicas y filas dinámicas de participantes.
+- Generación de un PDF preliminar para revisión, no basado todavía en la plantilla oficial.
+- Sin autenticación, persistencia ni almacenamiento remoto en esta etapa.
+
+**No usar datos personales reales ni emplear el PDF generado como registro oficial.**
+
 ## Alcance inicial
 
 Se priorizarán estos dos formatos, verificando primero sus campos y plantillas originales:
