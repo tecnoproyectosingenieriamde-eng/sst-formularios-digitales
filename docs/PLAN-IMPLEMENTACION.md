@@ -10,9 +10,9 @@
 ## Fase 2 — Formularios y PDF
 - [ ] Inspeccionar las plantillas originales FM-SST-14 y FM-SST-16.
 - [ ] Documentar campos, obligatoriedad y reglas de validación.
-- [ ] Construir el formulario de registro de asistencia.
+- [x] Crear prototipo interactivo de registro de asistencia (pendiente validar campos oficiales).
 - [ ] Construir la evaluación de inducción SST.
-- [ ] Alinear los datos con la plantilla y verificar el PDF generado.
+- [ ] Alinear los datos con la plantilla oficial y verificar visualmente el PDF (pendiente).
 
 ## Fase 3 — Persistencia y permisos
 - [ ] Definir roles con el responsable de SST.
