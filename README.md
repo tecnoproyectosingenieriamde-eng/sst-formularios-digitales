@@ -17,7 +17,9 @@ Aplicación independiente para diligenciar formularios del Sistema de Gestión d
 
 - Catálogo inicial con búsqueda de formatos.
 - Formulario FM-SST-14 con validaciones básicas y filas dinámicas de participantes.
+- Captura de firmas dibujadas para asistentes y facilitador (solo en memoria del navegador).
 - Generación de un PDF preliminar para revisión, no basado todavía en la plantilla oficial.
+- Compilación automatizada en GitHub Actions; se deben completar pruebas funcionales y revisión visual.
 - Sin autenticación, persistencia ni almacenamiento remoto en esta etapa.
 
 **No usar datos personales reales ni emplear el PDF generado como registro oficial.**
@@ -51,16 +53,23 @@ La elección final de servicios puede ajustarse tras una prueba técnica. El mó
 - Usar almacenamiento privado para documentos que contengan datos personales.
 - Probar la autorización en cada operación de lectura y escritura.
 
-## Desarrollo local (cuando se cree el proyecto)
+## Ejecutar en local
 
-Requisitos previstos: Node.js LTS y npm.
+Requisitos: Node.js 22 LTS y npm.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Los comandos estarán disponibles cuando se agreguen los archivos iniciales de la aplicación.
+Para comprobar la compilación de producción:
+
+```bash
+npm run build
+npm run preview
+```
+
+La compilación automática se ejecuta en GitHub Actions al subir cambios a `setup/arquitectura-inicial`. La comprobación de compilación no reemplaza las pruebas funcionales en navegador ni la validación visual del PDF.
 
 ## Flujo de trabajo
 
