@@ -10,7 +10,7 @@ function sigBytes(value:string):Uint8Array|null { if(!value.startsWith('data:ima
 function drawCheck(page:PDFPage,x:number,top:number,size:number,checked:boolean,H:number){page.drawRectangle({x,y:H-top-size,width:size,height:size,borderColor:rgb(0,0,0),borderWidth:.65,color:rgb(1,1,1)});if(checked){page.drawLine({start:{x:x+2,y:H-top-size/2},end:{x:x+size*.42,y:H-top-size+2},thickness:1.1,color:rgb(0,0,0)});page.drawLine({start:{x:x+size*.42,y:H-top-size+2},end:{x:x+size-1,y:H-top-2},thickness:1.1,color:rgb(0,0,0)})}}
 export async function downloadInductionRegisterPdf(record:InductionRegisterRecord) {
  const pdf=await PDFDocument.create(), regular=await pdf.embedFont(StandardFonts.Helvetica), bold=await pdf.embedFont(StandardFonts.HelveticaBold)
- const W=595.28,H=841.89,left=20,right=W-20,width=right-left,ink=rgb(.12,.19,.27),line=rgb(.58,.68,.78),blue=rgb(0,0,0),pale=rgb(1,1,1),muted=rgb(.35,.42,.5)
+ const W=595.28,H=841.89,left=20,right=W-20,width=right-left,ink=rgb(0,0,0),line=rgb(0,0,0),blue=rgb(0,0,0),pale=rgb(1,1,1),muted=rgb(0,0,0)
  let page={} as PDFPage, y=0
  const text=(v:string,x:number,top:number,size=7,font:PDFFont=regular,maxWidth=right-x,color=ink)=>page.drawText(v||'',{x,y:H-top-size,size,font,color,maxWidth:Math.max(10,maxWidth)})
  const rect=(x:number,top:number,w:number,h:number,fill=false)=>page.drawRectangle({x,y:H-top-h,width:w,height:h,borderColor:line,borderWidth:.55,...(fill?{color:rgb(1,1,1)}:{})})
