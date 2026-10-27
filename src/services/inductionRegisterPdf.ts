@@ -47,7 +47,7 @@ export async function downloadInductionRegisterPdf(record:InductionRegisterRecor
      const topicLines=wrap(topic?.name||'',regular,5.5,topicW-23)
      topicLines.slice(0,Math.max(1,Math.floor((rh-4)/7))).forEach((lineText,lineIndex)=>text(lineText,bx+20,y+2+lineIndex*7,5.5,regular,topicW-23))
      let cx=bx+topicW
-     ;['Sí','No','N/A'].forEach((option,j)=>{rect(cx,y,checkW,rh,false);drawCheck(page,cx+(checkW-8)/2,y+(rh-8)/2,8,topic?.response===option,H);cx+=checkW})
+     ;['Sí','No','N/A'].forEach((option)=>{rect(cx,y,checkW,rh,false);drawCheck(page,cx+(checkW-8)/2,y+(rh-8)/2,8,topic?.response===option,H);cx+=checkW})
    }
    y+=rh
  }
