@@ -26,6 +26,8 @@ Este checklist se ejecuta en un entorno de pruebas y con datos ficticios. No con
 - [ ] La pregunta 15 de ARL es obligatoria y aparece inicialmente como Positiva.
 - [ ] Cambiar la ARL, limpiar el formulario y confirmar que el valor vuelve a Positiva.
 - [ ] La firma se puede dibujar y borrar.
+- [ ] El botón Generar PDF descarga un FM-SST-16 con datos, las 15 respuestas, compromiso y firma.
+- [ ] El PDF de FM-SST-16 conserva todas las preguntas/respuestas cuando el contenido ocupa varias páginas.
 - [ ] Imprimir / guardar como PDF produce páginas legibles y no corta preguntas ni firma.
 - [ ] El puntaje mínimo indicado es 12; no debe mostrarse una nota automática hasta definir y validar la calificación de respuestas abiertas.
 
