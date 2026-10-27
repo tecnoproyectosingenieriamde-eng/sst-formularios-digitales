@@ -245,3 +245,66 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   .signature-canvas { border: 1px solid #999; }
   .form-actions { display: none !important; }
 }
+
+
+/* FM-SST-45 ATS prototype */
+.ats-page{max-width:1180px;margin:0 auto;padding:20px 0 36px;color:#111}
+.ats-screen-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.ats-document{display:grid;grid-template-columns:1fr;gap:24px}
+.ats-page-sheet{background:#fff;color:#111;border:1px solid #d1d5db;box-shadow:0 5px 22px #1111;padding:26px;min-width:0}
+.ats-header{display:grid;grid-template-columns:1fr 1.8fr 1fr;border:1px solid #111;margin-bottom:12px;min-height:64px}
+.ats-header>div{padding:7px;border-right:1px solid #111;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.ats-header>div:last-child{border-right:0}
+.ats-company strong{font-size:12px;letter-spacing:.2px}.ats-company span{font-size:10px}
+.ats-title{text-align:center;font-size:8px;line-height:1.25}.ats-title b{font-size:10px;margin-top:2px}
+.ats-meta{font-size:9px}
+.ats-fields{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid #111;border-left:1px solid #111;margin-bottom:12px}
+.ats-fields label{display:flex;align-items:center;gap:6px;padding:5px;border-right:1px solid #111;border-bottom:1px solid #111;font-size:10px;font-weight:700;min-width:0}
+.ats-fields input{min-width:0;width:100%;border:0;border-bottom:1px solid #777;border-radius:0;padding:3px;font:inherit;font-weight:400;background:transparent}
+.ats-fields .ats-span{grid-column:1/-1}
+.ats-section{background:#e5e7eb;border:1px solid #111;padding:5px 7px;margin:12px 0 0;font-size:11px;line-height:1.25;font-weight:800}
+.ats-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:9px;margin-bottom:5px}
+.ats-table th,.ats-table td{border:.6px solid #111;padding:4px;vertical-align:top;overflow-wrap:anywhere}
+.ats-table th{background:#f3f4f6;text-align:center;font-weight:700}
+.ats-table td input:not([type=radio]),.ats-table td select,.ats-table td textarea{display:block;width:100%;min-width:0;border:0;border-bottom:1px solid #aaa;border-radius:0;padding:2px;font:inherit;background:transparent;color:#111;resize:vertical}
+.ats-table td textarea{min-height:34px}
+.ats-table tbody tr{min-height:28px}
+.ats-table th:last-child,.ats-table td:last-child{width:48px}
+.ats-hazards th:nth-child(1){width:16%}.ats-hazards th:nth-child(2){width:15%}.ats-hazards th:nth-child(3){width:16%}.ats-hazards th:nth-child(4){width:31%}.ats-hazards th:nth-child(5){width:14%}
+.ats-radio{display:inline-flex;align-items:center;gap:2px;margin:2px 4px 2px 0;font-size:9px;white-space:nowrap}
+.ats-radio input,.ats-authorization input{margin:0;accent-color:#111}
+.ats-add{margin:4px 0 8px;padding:6px 10px;font-size:12px}
+.ats-icon-button{border:0;background:transparent;color:#333;cursor:pointer;padding:4px}
+.ats-page-number{text-align:right;font-size:9px;margin-top:12px}
+.ats-page-two{break-before:page;page-break-before:always}
+.ats-page-two .ats-table td{padding:5px}
+.ats-authorization{border:1px solid #111;padding:10px;display:flex;flex-direction:column;gap:8px;font-size:11px;font-weight:700}
+.ats-signatures{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.ats-signature-box{border:1px solid #111;padding:7px;min-width:0;min-height:110px;display:flex;flex-direction:column;gap:6px}
+.ats-signature-box>strong{font-size:10px;min-height:24px}
+.ats-signature-box>label{font-size:9px;display:flex;align-items:center;gap:5px}
+.ats-signature-box>label input{min-width:0;width:100%;border:0;border-bottom:1px solid #777;padding:3px;font-size:10px}
+.ats-signature-box .signature-pad,.ats-signature-box canvas{max-width:100%}
+.ats-legal{font-size:9px;font-style:italic;border-top:1px solid #777;padding-top:8px;margin-top:12px}
+@media(min-width:900px){.ats-document{gap:28px}.ats-page-sheet{padding:28px}}
+@media(max-width:650px){.ats-header{grid-template-columns:1fr}.ats-header>div{border-right:0;border-bottom:1px solid #111}.ats-header>div:last-child{border-bottom:0}.ats-fields{grid-template-columns:1fr}.ats-fields .ats-span{grid-column:auto}.ats-page-sheet{padding:10px;overflow-x:auto}.ats-table{font-size:8px}.ats-signatures{grid-template-columns:1fr}.ats-screen-controls{align-items:flex-start;flex-direction:column}}
+@page{size:letter portrait;margin:0.38in}
+@media print{
+  body{background:#fff!important;color:#000!important}
+  .sidebar,.topbar,.ats-screen-controls,.prototype-disclaimer,.ats-screen-only{display:none!important}
+  .main-content{padding:0!important;margin:0!important;width:100%!important;max-width:none!important}
+  .ats-page{padding:0!important;margin:0!important;max-width:none!important}
+  .ats-document{display:block!important;gap:0!important}
+  .ats-page-sheet{width:100%;height:10.24in;min-height:10.24in;max-height:10.24in;box-sizing:border-box;box-shadow:none;border:0;padding:0;overflow:hidden;break-after:page;page-break-after:always}
+  .ats-page-sheet:last-child{break-after:auto;page-break-after:auto}
+  .ats-header{margin-bottom:7px;min-height:55px}
+  .ats-header>div{padding:4px}
+  .ats-company strong{font-size:10px}.ats-company span{font-size:8px}.ats-title{font-size:7px}.ats-title b{font-size:9px}.ats-meta{font-size:8px}
+  .ats-fields{margin-bottom:6px}.ats-fields label{font-size:8px;padding:3px}.ats-section{font-size:9px;padding:4px;margin-top:7px}
+  .ats-table{font-size:7px;margin-bottom:2px}.ats-table th,.ats-table td{padding:3px}.ats-table td textarea{min-height:24px}
+  .ats-radio{font-size:7px;margin:1px}
+  .ats-page-number{font-size:7px;position:relative;margin-top:6px}
+  .ats-signatures{gap:6px;margin-top:6px}.ats-signature-box{min-height:88px;padding:5px;gap:3px}.ats-signature-box>strong{font-size:8px;min-height:18px}
+  .ats-authorization{font-size:9px;padding:6px;gap:5px}.ats-legal{font-size:7px;margin-top:7px;padding-top:5px}
+  input,textarea,select{color:#000!important}
+}
