@@ -107,7 +107,7 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
     rect(x0,y,width*.22,height);cellText(q.number+'. '+q.prompt,x0,y,width*.22,6.8,bold)
     rect(x0+width*.22,y,width*.58,height)
     let ty=y+5
-    lines.forEach((v,i)=>{const wrapped=wrap(v,regular,6.2,width*.58-8);wrapped.forEach(l=>{page.drawText(l,{x:x0+width*.22+4,y:H-ty-6.2,size:6.2,font:regular,color:ink});ty+=7.5});ty+=1})
+    lines.forEach((v)=>{const wrapped=wrap(v,regular,6.2,width*.58-8);wrapped.forEach(l=>{page.drawText(l,{x:x0+width*.22+4,y:H-ty-6.2,size:6.2,font:regular,color:ink});ty+=7.5});ty+=1})
     let x=x0+width*.80
     ;['A','B','C'].forEach(letter=>{rect(x,y,width*.066,height, q.selected===letter);cellText(q.selected===letter?'X':'',x,y,width*.066,7,bold);x+=width*.066})
     y+=height
