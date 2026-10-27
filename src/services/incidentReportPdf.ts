@@ -36,7 +36,9 @@ export async function downloadIncidentReportPdf(r:IncidentReport){
  const signers=[['REPORTO',r.reportedName,r.reportedRole,date(r.reportedDate)],['REVISO SG-SST',r.reviewedName,r.reviewedRole,date(r.reviewedDate)],['CERRO / VALIDO',r.closedName,r.closedRole,date(r.closedDate)]]
  const sigH=92,sigW=545/3
  if(y+sigH+42>H-28)newPage()
- signers.forEach(([role,name,job,when],i)=>{const x=25+i*sigW;page.drawRectangle({x,y:H-y-sigH,width:sigW,height:sigH,borderColor:border,borderWidth:.5});page.drawRectangle({x,y:H-y-16,width:sigW,height:16,borderColor:border,borderWidth:.4,color:blue});draw(role,x+4,y+4,6.2,bold);draw('Nombre:',x+4,y+22,6,bold);draw(name,x+4,y+31,7);draw('Cargo:',x+4,y+43,6,bold);draw(job,x+4,y+52,7);draw('Firma:',x+4,y+64,6,bold);page.drawRectangle({x:x+4,y:H-y-84,width:sigW-8,height:15,borderColor:border,borderWidth:.5});draw('Fecha: '+when,x+4,y+84,6);})
+ // Las tres celdas comparten exactamente la misma geometria y coordenada vertical para la fecha.
+ const signatureTop=y,signatureDateTop=signatureTop+84
+ signers.forEach(([role,name,job,when],i)=>{const x=25+i*sigW;page.drawRectangle({x,y:H-signatureTop-sigH,width:sigW,height:sigH,borderColor:border,borderWidth:.5});page.drawRectangle({x,y:H-signatureTop-16,width:sigW,height:16,borderColor:border,borderWidth:.4,color:blue});draw(role,x+4,signatureTop+4,6.2,bold);draw('Nombre:',x+4,signatureTop+22,6,bold);draw(name,x+4,signatureTop+31,7);draw('Cargo:',x+4,signatureTop+43,6,bold);draw(job,x+4,signatureTop+52,7);draw('Firma:',x+4,signatureTop+64,6,bold);page.drawRectangle({x:x+4,y:H-signatureTop-84,width:sigW-8,height:15,borderColor:border,borderWidth:.5});draw('Fecha: '+when,x+4,signatureDateTop,6);})
  y+=sigH+5
  const legal='Nota: Los reportes criticos relacionados con riesgo inminente, accidente grave, emergencia, incumplimiento legal o condicion que pueda causar dano deben comunicarse de forma inmediata al jefe directo, coordinador, Responsable del SG-SST o Gerencia, y gestionarse con prioridad.'
  const legalLines=wrap(legal,535,6.2),legalH=legalLines.length*7.5+8
