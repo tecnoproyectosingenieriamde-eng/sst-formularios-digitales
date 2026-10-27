@@ -85,7 +85,7 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   await newPage()
   section('DATOS GENERALES')
   tableRow(['NOMBRE',record.name,'CARGO',record.cargo],[width*.20,width*.35,width*.14,width*.31],24,true)
-  tableRow(['INDUCCIÓN','☐ '+(record.kind==='Inducción'?'X':'')+'   RE-INDUCCIÓN','FECHA REALIZACIÓN',formatDate(record.date)],[width*.20,width*.30,width*.22,width*.28],24,true)
+  tableRow(['INDUCCIÓN','[ ] '+(record.kind==='Inducción'?'X':'')+'   RE-INDUCCIÓN','FECHA REALIZACIÓN',formatDate(record.date)],[width*.20,width*.30,width*.22,width*.28],24,true)
   section('CRITERIOS DE EVALUACIÓN')
   text('Cada pregunta suma un punto. La inducción se aprobará con un mínimo de 12 puntos en total; quien no apruebe debe recibir nuevamente inducción y presentarla.',margin+5,y+4,7)
   y+=24
@@ -128,9 +128,9 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   y+=66
   section('CALIFICACIÓN DEL EVALUADOR (DILIGENCIAR POR SST)')
   tableRow(['Puntaje obtenido: ____ / 15','Nombre del evaluador: __________________________'],[width*.48,width*.52],25)
-  tableRow(['Resultado: ☐ Aprobó  ☐ No aprobó','Firma del evaluador: ___________________________'],[width*.48,width*.52],25)
+  tableRow(['Resultado: [ ] Aprobó  [ ] No aprobó','Firma del evaluador: ___________________________'],[width*.48,width*.52],25)
   const pages=pdf.getPages()
-  pages.forEach((p,i)=>{p.drawText('BORRADOR DIGITAL PARA VALIDACIÓN INTERNA · NO USAR COMO REGISTRO OFICIAL',{x:margin,y:25,size:6.4,font:regular,color:muted});const label='Página '+(i+1)+' de '+pages.length;p.drawText(label,{x:right-regular.widthOfTextAtSize(label,6.4),y:25,size:6.4,font:regular,color:muted})})
+  pages.forEach((p,i)=>{p.drawText('BORRADOR DIGITAL PARA VALIDACIÓN INTERNA - NO USAR COMO REGISTRO OFICIAL',{x:margin,y:25,size:6.4,font:regular,color:muted});const label='Página '+(i+1)+' de '+pages.length;p.drawText(label,{x:right-regular.widthOfTextAtSize(label,6.4),y:25,size:6.4,font:regular,color:muted})})
   const bytesOut=await pdf.save()
   const pdfBuffer=new ArrayBuffer(bytesOut.byteLength);new Uint8Array(pdfBuffer).set(bytesOut)
   const blob=new Blob([pdfBuffer],{type:'application/pdf'});const url=URL.createObjectURL(blob);const link=document.createElement('a')
