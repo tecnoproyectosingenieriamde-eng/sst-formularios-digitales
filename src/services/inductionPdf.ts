@@ -90,8 +90,7 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   }
   await newPage()
   section('DATOS GENERALES')
-  tableRow(['NOMBRE',record.name,'CARGO',record.cargo],[width*.20,width*.35,width*.14,width*.31],24,true)
-  tableRow(['NOMBRE',record.name,'CARGO',record.cargo,'FECHA REALIZACIÓN',formatDate(record.date)],[width*.14,width*.25,width*.10,width*.19,width*.19,width*.15],24,true)
+  tableRow(['NOMBRE',record.name,'CARGO',record.cargo,'FECHA REALIZACIÓN',formatDate(record.date)],[width*.14,width*.25,width*.10,width*.19,width*.19,width*.13],24,true)
   tableRow(['TIPO DE PROCESO',''],[width*.22,width*.78],22,true)
   const processX=margin+width*.24
   checkbox(processX,y-15,record.kind==='Inducción',8); text('INDUCCIÓN',processX+12,y-15,6.8,bold,60)
@@ -104,15 +103,15 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   openTable(record.questions.filter(q=>q.group==='open'))
   y+=8
   section('Responda las siguientes preguntas con falso o verdadero según corresponda:')
-  tableRow(['CONCEPTO','DEFINICIÓN','F','V'],[width*.20,width*.70,28,28],17,true)
+  tableRow(['CONCEPTO','DEFINICIÓN','F','V'],[width*.20,width*.70-56,28,28],17,true)
   record.questions.filter(q=>q.group==='trueFalse').forEach(q=>{
     const concept=q.prompt.split(':')[0] || q.prompt
     const definition=q.prompt.includes(':') ? q.prompt.slice(q.prompt.indexOf(':')+1).trim() : q.prompt
     const h=Math.max(34,wrap(definition,regular,6.6,width*.70-8).length*8+8)
-    tableRow([concept,definition,'',''],[width*.20,width*.70,28,28],h)
+    tableRow([concept,definition,'',''],[width*.20,width*.70-56,28,28],h)
     const rowTop=y-h
-    checkbox(margin+width*.90+9,rowTop+(h-8)/2,q.selected==='F',8)
-    checkbox(margin+width*.90+37,rowTop+(h-8)/2,q.selected==='V',8)
+    checkbox(margin+width*.90-56+10,rowTop+(h-8)/2,q.selected==='F',8)
+    checkbox(margin+width*.90-28+10,rowTop+(h-8)/2,q.selected==='V',8)
   })
   await newPage()
   section('De las TRES opciones que aparecen marque la respuesta correcta en la casilla correspondiente')
