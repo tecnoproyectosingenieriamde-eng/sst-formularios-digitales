@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type CSSProperties, type FormEvent } from 'react'
 import { ArrowLeft, Download, Plus, Trash2, ShieldCheck } from 'lucide-react'
 import SignaturePad from './SignaturePad'
 import { downloadInductionRegisterPdf, type InductionRegisterRecord, type InductionTopic } from '../services/inductionRegisterPdf'
@@ -38,13 +38,13 @@ export default function InductionRegister({ onBack }: Props) {
   const update = (key: 'date'|'time'|'cargo'|'trainer', value: string) => setRecord(old => ({ ...old, [key]: value }))
   const updateTopic = (index: number, response: string) => setRecord(old => ({ ...old, topics: old.topics.map((t,i) => i === index ? {...t,response} : t) }))
   const updateParticipant = (index: number, key: 'name'|'identification'|'socialized'|'signature', value: string) => setRecord(old => ({...old, participants: old.participants.map((p,i) => i === index ? {...p,[key]:value} : p)}))
-  const exportPdf = async (event: React.FormEvent) => {
+  const exportPdf = async (event: FormEvent) => {
     event.preventDefault(); setBusy(true); setNotice('')
     try { await downloadInductionRegisterPdf(record); setNotice('PDF preliminar generado. Revisa el diseño antes de usarlo como registro oficial.') }
     catch { setNotice('No se pudo generar el PDF. Intenta nuevamente.') }
     finally { setBusy(false) }
   }
-  const fieldStyle: React.CSSProperties = { width:'100%', boxSizing:'border-box', padding:'11px 12px', border:'1px solid #d7dedb', borderRadius:8, background:'#fff', font:'inherit', color:'#182522' }
+  const fieldStyle: CSSProperties = { width:'100%', boxSizing:'border-box', padding:'11px 12px', border:'1px solid #d7dedb', borderRadius:8, background:'#fff', font:'inherit', color:'#182522' }
   const labelStyle: React.CSSProperties = { display:'grid', gap:7, fontSize:13, fontWeight:600, color:'#33413d' }
   const panelStyle: React.CSSProperties = { background:'#fff', border:'1px solid #e0e7e3', borderRadius:14, padding:20, marginTop:18 }
   return <section className="attendance-page">
