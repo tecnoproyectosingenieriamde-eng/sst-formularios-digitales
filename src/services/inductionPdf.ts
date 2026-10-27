@@ -146,6 +146,14 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   } else {
     drawText('Sin firma', margin + 8, y + 15, 8, regular, muted)
   }
+  y += 58
+  ensureSpace(82)
+  drawLine(y)
+  drawText('RESULTADO DE LA EVALUACIÓN (DILIGENCIAR POR EL EVALUADOR)', margin, y + 8, 8, bold, green)
+  drawText('Puntaje obtenido: ______ / 15', margin, y + 28, 8, regular)
+  drawText('Resultado:  [  ] Aprobado    [  ] No aprobado', margin + 220, y + 28, 8, regular)
+  drawText('Nombre del evaluador: __________________________________________', margin, y + 47, 8, regular)
+  drawText('Firma del evaluador: _____________________________________________', margin, y + 64, 8, regular)
 
   const pages = pdf.getPages()
   pages.forEach((p, index) => {
