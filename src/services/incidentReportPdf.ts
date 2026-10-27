@@ -39,10 +39,10 @@ export async function downloadIncidentReportPdf(r:IncidentReport){
  signers.forEach(([role,name,job,when],i)=>{const x=25+i*sigW;page.drawRectangle({x,y:H-y-sigH,width:sigW,height:sigH,borderColor:border,borderWidth:.5});page.drawRectangle({x,y:H-y-16,width:sigW,height:16,borderColor:border,borderWidth:.4,color:blue});draw(role,x+4,y+4,6.2,bold);draw('Nombre:',x+4,y+22,6,bold);draw(name,x+4,y+31,7);draw('Cargo:',x+4,y+43,6,bold);draw(job,x+4,y+52,7);draw('Firma:',x+4,y+64,6,bold);page.drawRectangle({x:x+4,y:H-y-84,width:sigW-8,height:15,borderColor:border,borderWidth:.5});draw('Fecha: '+when,x+4,y+84,6);})
  y+=sigH+5
  const legal='Nota: Los reportes criticos relacionados con riesgo inminente, accidente grave, emergencia, incumplimiento legal o condicion que pueda causar dano deben comunicarse de forma inmediata al jefe directo, coordinador, Responsable del SG-SST o Gerencia, y gestionarse con prioridad.'
- const legalLines=wrap(legal,535,7),legalH=legalLines.length*8+8
+ const legalLines=wrap(legal,535,6.2),legalH=legalLines.length*7.5+8
  if(y+legalH>H-38)newPage()
  page.drawRectangle({x:25,y:H-y-legalH,width:545,height:legalH,borderColor:border,borderWidth:.5,color:blue})
- legalLines.forEach((line,i)=>draw(line,30,y+4+i*8,6.2))
+ legalLines.forEach((line,i)=>draw(line,30,y+4+i*7.5,6.2))
  y+=legalH
  const pages=pdf.getPages();pages.forEach((p,i)=>{p.drawText('BORRADOR DIGITAL PARA VALIDACION INTERNA - NO ES REGISTRO OFICIAL',{x:25,y:18,size:6,font,color:rgb(0,0,0)});p.drawText('Pagina '+(i+1)+' de '+pages.length,{x:510,y:18,size:6,font,color:rgb(0,0,0)})})
  const bytes=await pdf.save(),url=URL.createObjectURL(new Blob([new Uint8Array(bytes)],{type:'application/pdf'})),a=document.createElement('a');a.href=url;a.download='FM-SST-29-'+(r.reportDate||'reporte')+'.pdf';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)
