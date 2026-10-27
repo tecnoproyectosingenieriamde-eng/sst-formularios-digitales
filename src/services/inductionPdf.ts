@@ -108,7 +108,7 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
     // Separate the concept from its definition so the same sentence is not printed twice.
     const prompt=(q.prompt||'').trim()
     const separator=prompt.indexOf(':')
-    const phraseMatch=prompt.match(/^(.+?)\\s+es\\s+(?:aquella|aquel|el|la)\\s+/i)
+    const phraseMatch=prompt.match(/^(.+?)\s+es\s+(?:aquella|aquel|el|la)\s+/i)
     let concept=prompt, definition=''
     if(separator>=0){concept=prompt.slice(0,separator).trim();definition=prompt.slice(separator+1).trim()}
     else if(phraseMatch){concept=phraseMatch[1].trim();definition=prompt.slice(phraseMatch[0].length).trim()}
