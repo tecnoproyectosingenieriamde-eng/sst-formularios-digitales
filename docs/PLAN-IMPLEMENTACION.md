@@ -16,6 +16,7 @@
 - [x] Inspeccionar el PDF original FM-SST-16 adjuntado por el usuario y documentar sus secciones y preguntas.
 - [x] Construir prototipo digital FM-SST-16 con preguntas abiertas, falso/verdadero, selección múltiple, pregunta de ARL, compromiso y firma.
 - [x] Configurar el mismo valor para cada pregunta (1 punto) y ARL editable con valor inicial Positiva.
+- [x] Generar un PDF descargable para FM-SST-16 con datos del colaborador, respuestas, compromiso y firma.
 - [ ] Validar con SST los criterios para calificar manualmente las preguntas abiertas; la nota automática queda pendiente porque las respuestas abiertas requieren revisión humana.
 - [ ] Validar visualmente la impresión/PDF de FM-SST-16 contra la plantilla original.
 - [ ] Validar visualmente el PDF generado contra el original; logotipo vectorial actual es provisional.
