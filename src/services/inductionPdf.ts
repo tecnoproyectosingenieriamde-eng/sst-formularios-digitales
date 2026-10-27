@@ -103,15 +103,15 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   openTable(record.questions.filter(q=>q.group==='open'))
   y+=8
   section('Responda las siguientes preguntas con falso o verdadero según corresponda:')
-  tableRow(['CONCEPTO','DEFINICIÓN','F','V'],[width*.20,width*.70-56,28,28],17,true)
+  tableRow(['CONCEPTO','DEFINICIÓN','F','V'],[width*.20,width*.80-56,28,28],17,true)
   record.questions.filter(q=>q.group==='trueFalse').forEach(q=>{
     const concept=q.prompt.split(':')[0] || q.prompt
     const definition=q.prompt.includes(':') ? q.prompt.slice(q.prompt.indexOf(':')+1).trim() : q.prompt
-    const h=Math.max(34,wrap(definition,regular,6.6,width*.70-8).length*8+8)
-    tableRow([concept,definition,'',''],[width*.20,width*.70-56,28,28],h)
+    const h=Math.max(34,wrap(definition,regular,6.6,width*.80-64).length*8+8)
+    tableRow([concept,definition,'',''],[width*.20,width*.80-56,28,28],h)
     const rowTop=y-h
-    checkbox(margin+width*.90-56+10,rowTop+(h-8)/2,q.selected==='F',8)
-    checkbox(margin+width*.90-28+10,rowTop+(h-8)/2,q.selected==='V',8)
+    checkbox(margin+width-56+10,rowTop+(h-8)/2,q.selected==='F',8)
+    checkbox(margin+width-28+10,rowTop+(h-8)/2,q.selected==='V',8)
   })
   await newPage()
   section('De las TRES opciones que aparecen marque la respuesta correcta en la casilla correspondiente')
