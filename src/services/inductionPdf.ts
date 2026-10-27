@@ -66,8 +66,7 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
     text('Fecha: 22/06/2026',W-130,61,6.5)
     y=94
   }
-  const newPageconst newPage = async () => { page=pdf.addPage([W,H]); await header() }
-    = async () => { page=pdf.addPage([W,H]); await header(pdf.getPages().length) }
+  const newPage = async () => { page=pdf.addPage([W,H]); await header() }
   const section = (label:string) => { rect(margin,y,width,15,true); text(label,margin+5,y+4,7.5,bold); y+=15 }
   const tableRow = (cells:string[], widths:number[], height:number, boldCells=false, selectedIndex=-1) => {
     let x=margin
@@ -77,7 +76,10 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   const openTable = (items:InductionPdfQuestion[]) => {
     tableRow(['CONCEPTO','DEFINICIÓN'],[width*.39,width*.61],17,true)
     items.forEach(q=>{
-            tableRow([q.number+'. '+q.prompt,q.answer||''],[width*.39,width*.61],Math.min(h,90))
+      const promptLines=wrap(q.prompt,bold,7,width*.39-8)
+      const answerLines=wrap(q.answer||' ',regular,7,width*.61-8)
+      const h=Math.max(42,Math.max(promptLines.length,answerLines.length)*9+12)
+      tableRow([q.number+'. '+q.prompt,q.answer||''],[width*.39,width*.61],Math.min(h,90))
     })
   }
   await newPage()
