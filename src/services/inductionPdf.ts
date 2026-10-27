@@ -165,7 +165,10 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   })
 
   const bytesOut = await pdf.save()
-  const blob = new Blob([new Uint8Array(bytesOut)], { type: 'application/pdf' })
+  // Copy the PDF bytes into a standalone ArrayBuffer for BlobPart type compatibility.
+  const pdfBuffer = new ArrayBuffer(bytesOut.byteLength)
+  new Uint8Array(pdfBuffer).set(bytesOut)
+  const blob = new Blob([pdfBuffer], { type: 'application/pdf' })
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.href = url
