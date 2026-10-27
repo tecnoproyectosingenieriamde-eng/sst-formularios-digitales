@@ -68,14 +68,14 @@ export default function InductionEvaluation({ onBack }: Props) {
     setBusy(true)
     setNotice('')
     const questions: InductionPdfQuestion[] = [
-      ...openQuestions.map((q, i) => ({ number: i + 1, prompt: q.label, answer: answers[q.key] || '' })),
-      ...trueFalse.map((q, i) => ({ number: i + 6, prompt: q.label, answer: answers[q.key] === 'F' ? 'Falso' : answers[q.key] === 'V' ? 'Verdadero' : '' })),
+      ...openQuestions.map((q, i) => ({ number: i + 1, prompt: q.label, answer: answers[q.key] || '', group: 'open' as const })),
+      ...trueFalse.map((q, i) => ({ number: i + 6, prompt: q.label, answer: answers[q.key] === 'F' ? 'Falso' : answers[q.key] === 'V' ? 'Verdadero' : '', group: 'trueFalse' as const, selected: answers[q.key] || '' })),
       ...multipleChoice.map((q, i) => {
         const selected = answers[q.key]
         const selectedIndex = selected ? selected.charCodeAt(0) - 65 : -1
-        return { number: i + 8, prompt: q.label, answer: selectedIndex >= 0 && selectedIndex < q.options.length ? String.fromCharCode(65 + selectedIndex) + ') ' + q.options[selectedIndex] : '' }
+        return { number: i + 8, prompt: q.label, answer: selectedIndex >= 0 && selectedIndex < q.options.length ? String.fromCharCode(65 + selectedIndex) + ') ' + q.options[selectedIndex] : '', options: q.options, group: 'multiple' as const, selected: selected || '' }
       }),
-      { number: 15, prompt: '¿A qué ARL quedará usted afiliado?', answer: arL },
+      { number: 15, prompt: '¿A qué ARL quedará usted afiliado?', answer: arL, group: 'arl' as const },
     ]
     try {
       await downloadInductionPdf({ name, cargo, kind, date, arl: arL, signature, questions })
