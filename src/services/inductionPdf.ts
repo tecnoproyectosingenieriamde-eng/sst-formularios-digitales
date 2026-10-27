@@ -33,8 +33,12 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   const ink = rgb(.12,.14,.13), line = rgb(.25,.27,.25), pale = rgb(.94,.95,.94), muted = rgb(.38,.4,.38)
   let page = {} as PDFPage
   let y = 0
-  const text = (value: string, x: number, top: number, size = 7.4, font: PDFFont = regular) => {
-    page.drawText(value || '', { x, y: H - top - size, size, font, color: ink, maxWidth: Math.max(10, right-x) })
+  const text = (value: string, x: number, top: number, size = 7.4, font: PDFFont = regular, maxWidth = right-x) => {
+    page.drawText(value || '', { x, y: H - top - size, size, font, color: ink, maxWidth: Math.max(10, maxWidth) })
+  }
+  const checkbox = (x:number, top:number, checked:boolean, size=8) => {
+    page.drawRectangle({x,y:H-top-size,width:size,height:size,borderColor:line,borderWidth:.7})
+    if(checked){page.drawLine({start:{x:x+1.5,y:H-top-size+3},end:{x:x+3.2,y:H-top-size+1.4},thickness:1,color:ink});page.drawLine({start:{x:x+3.2,y:H-top-size+1.4},end:{x:x+size-1,y:H-top-1.5},thickness:1,color:ink})}
   }
   const rect = (x:number, top:number, w:number, h:number, fill?: boolean) => page.drawRectangle({x,y:H-top-h,width:w,height:h,borderColor:line,borderWidth:.55,...(fill?{color:pale}:{})})
   const wrap = (value:string, font:PDFFont, size:number, max:number) => {
@@ -56,14 +60,16 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
       if(response.ok){const bytes=new Uint8Array(await response.arrayBuffer());const logo=await pdf.embedJpg(bytes);page.drawImage(logo,{x:margin+5,y:H-58,width:58,height:38,opacity:1});logoDrawn=true}
     } catch { /* External logo is optional in the offline/blocked case. */ }
     rect(margin,28,width,58)
-    if(!logoDrawn) { text('TECNOPROYECTOS',margin+6,40,7.2,bold); text('INGENIERÍA S.A.S.',margin+6,50,6.8,bold) }
-    text('SISTEMA DE GESTIÓN INTEGRADO',margin+82,34,8,bold)
-    text('GESTIÓN DE LA SEGURIDAD Y SALUD EN EL TRABAJO',margin+82,45,6.8,bold)
-    text('EVALUACIÓN DE LA INDUCCIÓN EN SEGURIDAD Y SALUD EN EL TRABAJO',margin+82,56,6.1,bold)
-    page.drawLine({start:{x:W-137,y:H-28},end:{x:W-137,y:H-86},thickness:.5,color:line})
-    text('Código: FM-SST-16',W-130,35,6.5)
-    text('Versión: 01',W-130,48,6.5)
-    text('Fecha: 22/06/2026',W-130,61,6.5)
+    const logoX=margin+4, logoW=66, titleX=margin+76, titleW=width-76-94, metaX=right-88
+    page.drawLine({start:{x:titleX-5,y:H-28},end:{x:titleX-5,y:H-86},thickness:.5,color:line})
+    page.drawLine({start:{x:metaX-6,y:H-28},end:{x:metaX-6,y:H-86},thickness:.5,color:line})
+    if(!logoDrawn) { text('TECNOPROYECTOS',logoX,40,6.1,bold,logoW); text('INGENIERÍA S.A.S.',logoX,50,5.8,bold,logoW) }
+    text('SISTEMA DE GESTIÓN INTEGRADO',titleX,34,7.1,bold,titleW)
+    text('GESTIÓN DE LA SEGURIDAD Y SALUD EN EL TRABAJO',titleX,45,5.8,bold,titleW)
+    text('EVALUACIÓN DE LA INDUCCIÓN EN SEGURIDAD Y SALUD EN EL TRABAJO',titleX,56,5.1,bold,titleW)
+    text('Código: FM-SST-16',metaX,35,5.8,regular,84)
+    text('Versión: 01',metaX,48,5.8,regular,84)
+    text('Fecha: 22/06/2026',metaX,61,5.5,regular,84)
     y=94
   }
   const newPage = async () => { page=pdf.addPage([W,H]); await header() }
@@ -74,18 +80,23 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
     y+=height
   }
   const openTable = (items:InductionPdfQuestion[]) => {
-    tableRow(['CONCEPTO','DEFINICIÓN'],[width*.39,width*.61],17,true)
+    tableRow(['CONCEPTO','DEFINICIÓN'],[width*.64,width*.36],17,true)
     items.forEach(q=>{
-      const promptLines=wrap(q.prompt,bold,7,width*.39-8)
-      const answerLines=wrap(q.answer||' ',regular,7,width*.61-8)
-      const h=Math.max(42,Math.max(promptLines.length,answerLines.length)*9+12)
-      tableRow([q.number+'. '+q.prompt,q.answer||''],[width*.39,width*.61],Math.min(h,90))
+      const promptLines=wrap(q.number+'. '+q.prompt,regular,6.8,width*.64-10)
+      const answerLines=wrap(q.answer||' ',regular,6.8,width*.36-10)
+      const h=Math.max(42,Math.max(promptLines.length,answerLines.length)*8.5+12)
+      tableRow([q.number+'. '+q.prompt,q.answer||''],[width*.64,width*.36],Math.min(h,90))
     })
   }
   await newPage()
   section('DATOS GENERALES')
   tableRow(['NOMBRE',record.name,'CARGO',record.cargo],[width*.20,width*.35,width*.14,width*.31],24,true)
-  tableRow(['INDUCCIÓN','[ ] '+(record.kind==='Inducción'?'X':'')+'   RE-INDUCCIÓN','FECHA REALIZACIÓN',formatDate(record.date)],[width*.20,width*.30,width*.22,width*.28],24,true)
+  tableRow(['NOMBRE',record.name,'CARGO',record.cargo,'FECHA REALIZACIÓN',formatDate(record.date)],[width*.14,width*.25,width*.10,width*.19,width*.19,width*.15],24,true)
+  tableRow(['TIPO DE PROCESO',''],[width*.22,width*.78],22,true)
+  const processX=margin+width*.24
+  checkbox(processX,y-15,record.kind==='Inducción',8); text('INDUCCIÓN',processX+12,y-15,6.8,bold,60)
+  checkbox(processX+90,y-15,record.kind!=='Inducción',8); text('RE-INDUCCIÓN',processX+102,y-15,6.8,bold,80)
+  y+=1
   section('CRITERIOS DE EVALUACIÓN')
   text('Cada pregunta suma un punto. La inducción se aprobará con un mínimo de 12 puntos en total; quien no apruebe debe recibir nuevamente inducción y presentarla.',margin+5,y+4,7)
   y+=24
@@ -93,10 +104,15 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   openTable(record.questions.filter(q=>q.group==='open'))
   y+=8
   section('Responda las siguientes preguntas con falso o verdadero según corresponda:')
-  tableRow(['CONCEPTO','DEFINICIÓN','F','V'],[width*.23,width*.57,width*.10,width*.10],17,true)
+  tableRow(['CONCEPTO','DEFINICIÓN','F','V'],[width*.20,width*.70,28,28],17,true)
   record.questions.filter(q=>q.group==='trueFalse').forEach(q=>{
-    const h=Math.max(34,wrap(q.prompt,regular,6.6,width*.57-8).length*8+8)
-    tableRow([q.prompt,q.prompt,'F '+(q.selected==='F'?'X':'') ,'V '+(q.selected==='V'?'X':'')],[width*.23,width*.57,width*.10,width*.10],h)
+    const concept=q.prompt.split(':')[0] || q.prompt
+    const definition=q.prompt.includes(':') ? q.prompt.slice(q.prompt.indexOf(':')+1).trim() : q.prompt
+    const h=Math.max(34,wrap(definition,regular,6.6,width*.70-8).length*8+8)
+    tableRow([concept,definition,'',''],[width*.20,width*.70,28,28],h)
+    const rowTop=y-h
+    checkbox(margin+width*.90+9,rowTop+(h-8)/2,q.selected==='F',8)
+    checkbox(margin+width*.90+37,rowTop+(h-8)/2,q.selected==='V',8)
   })
   await newPage()
   section('De las TRES opciones que aparecen marque la respuesta correcta en la casilla correspondiente')
@@ -111,7 +127,7 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
     let ty=y+5
     lines.forEach((v)=>{const wrapped=wrap(v,regular,6.2,width*.58-8);wrapped.forEach(l=>{page.drawText(l,{x:x0+width*.22+4,y:H-ty-6.2,size:6.2,font:regular,color:ink});ty+=7.5});ty+=1})
     let x=x0+width*.80
-    ;['A','B','C'].forEach(letter=>{rect(x,y,width*.066,height, q.selected===letter);cellText(q.selected===letter?'X':'',x,y,width*.066,7,bold);x+=width*.066})
+    ;['A','B','C'].forEach(letter=>{rect(x,y,width*.066,height);checkbox(x+(width*.066-8)/2,y+(height-8)/2,q.selected===letter,8);x+=width*.066})
     y+=height
   })
   y+=5
