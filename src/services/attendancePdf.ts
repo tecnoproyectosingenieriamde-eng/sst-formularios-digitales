@@ -82,11 +82,20 @@ export async function downloadAttendancePdf(record: AttendanceRecord) {
     const textWidth = font.widthOfTextAtSize(value, size)
     txt(value, x + Math.max(3, (w - textWidth) / 2), top, size, font, color, w - 6)
   }
+  let companyLogo: Awaited<ReturnType<typeof pdf.embedJpg>> | null = null
+  try {
+    const response = await fetch('https://static.wixstatic.com/media/d0ce54_5945f241b1534afeb1a98e9e645f4482~mv2.jpg')
+    if (response.ok) companyLogo = await pdf.embedJpg(new Uint8Array(await response.arrayBuffer()))
+  } catch {
+    // The PDF can still be generated if the external logo is unavailable.
+  }
   const drawLogo = (x: number, top: number) => {
-    page.drawCircle({ x: x + 28, y: H - top - 23, size: 17, borderColor: blue, borderWidth: 2, color: rgb(0.96, 0.97, 0.98) })
-    centered('TP', x + 10, top + 14, 36, 13, bold, blue)
-    centered('TECNO', x + 2, top + 43, 52, 6.5, bold, black)
-    centered('PROYECTOS', x + 2, top + 50, 52, 5.5, regular, blue)
+    if (companyLogo) {
+      page.drawImage(companyLogo, { x: x + 1, y: H - top - 47, width: 58, height: 42 })
+    } else {
+      centered('TECNOPROYECTOS', x - 1, top + 18, 58, 5.8, bold, black)
+      centered('INGENIERÍA S.A.S.', x - 1, top + 27, 58, 5.5, bold, blue)
+    }
   }
   const header = (continuation = false) => {
     page = pdf.addPage([W, H])
