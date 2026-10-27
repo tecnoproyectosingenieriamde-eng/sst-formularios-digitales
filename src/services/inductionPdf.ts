@@ -31,7 +31,7 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   const bold = await pdf.embedFont(StandardFonts.HelveticaBold)
   const W = 595.28, H = 841.89, margin = 32, right = W - margin, width = right - margin
   const ink = rgb(.12,.14,.13), line = rgb(.25,.27,.25), pale = rgb(.94,.95,.94), muted = rgb(.38,.4,.38)
-  let page: PDFPage
+  let page = {} as PDFPage
   let y = 0
   const text = (value: string, x: number, top: number, size = 7.4, font: PDFFont = regular) => {
     page.drawText(value || '', { x, y: H - top - size, size, font, color: ink, maxWidth: Math.max(10, right-x) })
