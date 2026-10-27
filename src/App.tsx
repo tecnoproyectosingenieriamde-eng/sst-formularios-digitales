@@ -67,8 +67,8 @@ export default function App() {
           <div className="participant-list">{record.participants.map((person, index) => <div className="participant-row" key={index}>
             <div className="participant-row-title"><span>PARTICIPANTE {String(index + 1).padStart(2, '0')}</span>{record.participants.length > 1 && <button type="button" className="remove-row" onClick={() => setRecord((old) => ({ ...old, participants: old.participants.filter((_, i) => i !== index) }))}>Quitar</button>}</div>
             <div className="fields-grid participant-fields">
-              <label className="field"><span>Nombre completo</span><input maxLength={120} value={person.name} onChange={(e) => updatePerson(index, 'name', e.target.value)} placeholder="Nombre de prueba" /></label>
-              <label className="field"><span>Identificación</span><input maxLength={40} value={person.identification} onChange={(e) => updatePerson(index, 'identification', e.target.value)} placeholder="Dato ficticio" /></label>
+              <label className="field"><span>Nombre completo <b>*</b></span><input required maxLength={120} value={person.name} onChange={(e) => updatePerson(index, 'name', e.target.value)} placeholder="Nombre de prueba" /></label>
+              <label className="field"><span>Identificación <b>*</b></span><input required maxLength={40} value={person.identification} onChange={(e) => updatePerson(index, 'identification', e.target.value)} placeholder="Dato ficticio" /></label>
               <label className="field"><span>Cargo</span><input maxLength={100} value={person.cargo} onChange={(e) => updatePerson(index, 'cargo', e.target.value)} placeholder="Cargo del asistente" /></label>
               <SignaturePad label="Firma del asistente" value={person.signature} onChange={(value) => updatePerson(index, 'signature', value)} />
             </div>
