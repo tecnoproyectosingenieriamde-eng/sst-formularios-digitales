@@ -9,7 +9,7 @@ Este checklist se ejecuta en un entorno de pruebas y con datos ficticios. No con
 - [ ] Los formatos aún no implementados se identifican como pendientes.
 
 ## FM-SST-14 — Registro de asistencia
-- [ ] Los campos obligatorios impiden generar el PDF si están vacíos.
+- [ ] Los campos obligatorios de la actividad, el facilitador y al menos un participante (nombre e identificación) impiden generar el PDF si están vacíos.
 - [ ] Se pueden agregar y quitar participantes sin perder los demás datos.
 - [ ] Las firmas de participantes y facilitador se pueden dibujar con ratón o pantalla táctil y borrar.
 - [ ] La generación de PDF descarga un archivo legible con tema, fecha, lugar, responsable, participantes y observaciones.
