@@ -63,7 +63,7 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   const green = rgb(0.16, 0.39, 0.28)
   const muted = rgb(0.36, 0.43, 0.39)
   const lineColor = rgb(0.80, 0.85, 0.81)
-  let page: PDFPage
+  let page = {} as PDFPage
   let y = 0
   let pageNumber = 0
 
