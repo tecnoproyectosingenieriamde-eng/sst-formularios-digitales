@@ -102,9 +102,22 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   section('En las siguientes preguntas diligencie en el espacio en blanco las respuestas adecuadas a cada pregunta.')
   openTable(record.questions.filter(q=>q.group==='open'))
   y+=8
+  const trueFalseQuestions=record.questions.filter(q=>q.group==='trueFalse')
+  // Keep the instruction and its table together instead of letting them overflow the page.
+  const estimatedTrueFalseHeight=17+trueFalseQuestions.reduce((total,q)=>{
+    const prompt=(q.prompt||'').trim()
+    const separator=prompt.indexOf(':')
+    const phraseMatch=prompt.match(/^(.+?)\\s+es\\s+(?:aquella|aquel|el|la)\\s+/i)
+    let definition=''
+    if(separator>=0) definition=prompt.slice(separator+1).trim()
+    else if(phraseMatch) definition=prompt.slice(phraseMatch[0].length).trim()
+    else if(q.answer && q.answer.trim() && q.answer.trim()!==prompt) definition=q.answer.trim()
+    return total+Math.max(34,wrap(definition||prompt,regular,6.6,width*.80-64).length*8+8)
+  },0)
+  if(y+15+estimatedTrueFalseHeight>H-42) await newPage()
   section('Responda las siguientes preguntas con falso o verdadero según corresponda:')
   tableRow(['CONCEPTO','DEFINICIÓN','F','V'],[width*.20,width*.80-56,28,28],17,true)
-  record.questions.filter(q=>q.group==='trueFalse').forEach(q=>{
+  trueFalseQuestions.forEach(q=>{
     // Separate the concept from its definition so the same sentence is not printed twice.
     const prompt=(q.prompt||'').trim()
     const separator=prompt.indexOf(':')
@@ -133,7 +146,7 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
     const optionTops:number[]=[]
     lines.forEach((v)=>{optionTops.push(ty);const wrapped=wrap(v,regular,6.2,width*.58-8);wrapped.forEach(l=>{page.drawText(l,{x:x0+width*.22+4,y:H-ty-6.2,size:6.2,font:regular,color:ink});ty+=7.5});ty+=1})
     let x=x0+width*.80
-    ;['A','B','C'].forEach((letter,index)=>{rect(x,y,width*.066,height);const optionTop=optionTops[index]??(y+5);checkbox(x+(width*.066-8)/2,optionTop+(6.2-8)/2,q.selected===letter,8);x+=width*.066})
+    ;['A','B','C'].forEach((letter,index)=>{rect(x,y,width*.066,height);const optionTop=optionTops[index]??(y+5);checkbox(x+(width*.066-8)/2,optionTop+(7.5-8)/2,q.selected===letter,8);x+=width*.066})
     y+=height
   })
   y+=5
