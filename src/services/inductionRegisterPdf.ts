@@ -7,7 +7,7 @@ const LOGO_URL = 'https://static.wixstatic.com/media/d0ce54_5945f241b1534afeb1a9
 const clean = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9-_]+/g,'-').replace(/^-|-$/g,'').slice(0,50)||'registro'
 const dateText = (value:string) => { const p=value.split('-'); return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : value }
 function sigBytes(value:string):Uint8Array|null { if(!value.startsWith('data:image/png;base64,')) return null; const raw=atob(value.slice('data:image/png;base64,'.length)); return Uint8Array.from(raw,c=>c.charCodeAt(0)) }
-function drawCheck(page:PDFPage,x:number,top:number,size:number,checked:boolean,H:number){page.drawRectangle({x,y:H-top-size,width:size,height:size,borderColor:rgb(.22,.34,.46),borderWidth:.65});if(checked){page.drawLine({start:{x:x+2,y:H-top-size/2},end:{x:x+size*.42,y:H-top-size+2},thickness:1.1,color:rgb(.08,.31,.57)});page.drawLine({start:{x:x+size*.42,y:H-top-size+2},end:{x:x+size-1,y:H-top-2},thickness:1.1,color:rgb(.08,.31,.57)})}}
+function drawCheck(page:PDFPage,x:number,top:number,size:number,checked:boolean,H:number){page.drawRectangle({x,y:H-top-size,width:size,height:size,borderColor:rgb(.22,.34,.46),borderWidth:.65,color:rgb(1,1,1)});if(checked){page.drawLine({start:{x:x+2,y:H-top-size/2},end:{x:x+size*.42,y:H-top-size+2},thickness:1.1,color:rgb(.08,.31,.57)});page.drawLine({start:{x:x+size*.42,y:H-top-size+2},end:{x:x+size-1,y:H-top-2},thickness:1.1,color:rgb(.08,.31,.57)})}}
 export async function downloadInductionRegisterPdf(record:InductionRegisterRecord) {
  const pdf=await PDFDocument.create(), regular=await pdf.embedFont(StandardFonts.Helvetica), bold=await pdf.embedFont(StandardFonts.HelveticaBold)
  const W=595.28,H=841.89,left=20,right=W-20,width=right-left,ink=rgb(.12,.19,.27),line=rgb(.58,.68,.78),blue=rgb(.08,.31,.57),pale=rgb(1,1,1),muted=rgb(.35,.42,.5)
@@ -41,7 +41,11 @@ export async function downloadInductionRegisterPdf(record:InductionRegisterRecor
    const rh=Math.max(18,...wraps.map(lines=>Math.min(24,lines.length*6+4)))
    for(let block=0;block<2;block++){
      const bx=left+block*(blockW+gap),topic=rowTopics[block],number=row+(block*10)
-     cell(String(number+1)+'. '+(topic?.name||''),bx,y,topicW,rh,5.5,regular,false)
+     rect(bx,y,topicW,rh,false)
+     const numberText=String(number+1)+'.'
+     text(numberText,bx+3,y+2,5.5,bold,14)
+     const topicLines=wrap(topic?.name||'',regular,5.5,topicW-23)
+     topicLines.slice(0,Math.max(1,Math.floor((rh-4)/7))).forEach((lineText,lineIndex)=>text(lineText,bx+20,y+2+lineIndex*7,5.5,regular,topicW-23))
      let cx=bx+topicW
      ;['Sí','No','N/A'].forEach((option,j)=>{rect(cx,y,checkW,rh,false);drawCheck(page,cx+(checkW-8)/2,y+(rh-8)/2,8,topic?.response===option,H);cx+=checkW})
    }
