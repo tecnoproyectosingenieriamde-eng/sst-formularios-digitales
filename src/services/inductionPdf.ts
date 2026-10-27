@@ -124,7 +124,11 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
     const phraseMatch=prompt.match(/^(.+?)\s+es\s+(?:aquella|aquel|el|la)\s+/i)
     let concept=prompt, definition=''
     if(separator>=0){concept=prompt.slice(0,separator).trim();definition=prompt.slice(separator+1).trim()}
-    else if(phraseMatch){concept=phraseMatch[1].trim();definition=prompt.slice(phraseMatch[0].length).trim()}
+    else if(phraseMatch){
+      // Keep the full definition in its cell, including the subject "Enfermedad laboral es...".
+      concept=phraseMatch[1].trim()
+      definition=prompt
+    }
     else if(q.answer && q.answer.trim() && q.answer.trim()!==prompt){definition=q.answer.trim()}
     const h=Math.max(34,wrap(definition||prompt,regular,6.6,width*.80-64).length*8+8)
     tableRow([concept,definition||prompt,'',''],[width*.20,width*.80-56,28,28],h)
