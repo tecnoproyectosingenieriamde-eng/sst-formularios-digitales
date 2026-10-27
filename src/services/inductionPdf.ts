@@ -105,10 +105,16 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
   section('Responda las siguientes preguntas con falso o verdadero según corresponda:')
   tableRow(['CONCEPTO','DEFINICIÓN','F','V'],[width*.20,width*.80-56,28,28],17,true)
   record.questions.filter(q=>q.group==='trueFalse').forEach(q=>{
-    const concept=q.prompt.split(':')[0] || q.prompt
-    const definition=q.prompt.includes(':') ? q.prompt.slice(q.prompt.indexOf(':')+1).trim() : q.prompt
-    const h=Math.max(34,wrap(definition,regular,6.6,width*.80-64).length*8+8)
-    tableRow([concept,definition,'',''],[width*.20,width*.80-56,28,28],h)
+    // Separate the concept from its definition so the same sentence is not printed twice.
+    const prompt=(q.prompt||'').trim()
+    const separator=prompt.indexOf(':')
+    const phraseMatch=prompt.match(/^(.+?)\\s+es\\s+(?:aquella|aquel|el|la)\\s+/i)
+    let concept=prompt, definition=''
+    if(separator>=0){concept=prompt.slice(0,separator).trim();definition=prompt.slice(separator+1).trim()}
+    else if(phraseMatch){concept=phraseMatch[1].trim();definition=prompt.slice(phraseMatch[0].length).trim()}
+    else if(q.answer && q.answer.trim() && q.answer.trim()!==prompt){definition=q.answer.trim()}
+    const h=Math.max(34,wrap(definition||prompt,regular,6.6,width*.80-64).length*8+8)
+    tableRow([concept,definition||prompt,'',''],[width*.20,width*.80-56,28,28],h)
     const rowTop=y-h
     checkbox(margin+width-56+10,rowTop+(h-8)/2,q.selected==='F',8)
     checkbox(margin+width-28+10,rowTop+(h-8)/2,q.selected==='V',8)
@@ -124,9 +130,10 @@ export async function downloadInductionPdf(record: InductionPdfRecord) {
     rect(x0,y,width*.22,height);cellText(q.number+'. '+q.prompt,x0,y,width*.22,6.8,bold)
     rect(x0+width*.22,y,width*.58,height)
     let ty=y+5
-    lines.forEach((v)=>{const wrapped=wrap(v,regular,6.2,width*.58-8);wrapped.forEach(l=>{page.drawText(l,{x:x0+width*.22+4,y:H-ty-6.2,size:6.2,font:regular,color:ink});ty+=7.5});ty+=1})
+    const optionTops:number[]=[]
+    lines.forEach((v)=>{optionTops.push(ty);const wrapped=wrap(v,regular,6.2,width*.58-8);wrapped.forEach(l=>{page.drawText(l,{x:x0+width*.22+4,y:H-ty-6.2,size:6.2,font:regular,color:ink});ty+=7.5});ty+=1})
     let x=x0+width*.80
-    ;['A','B','C'].forEach(letter=>{rect(x,y,width*.066,height);checkbox(x+(width*.066-8)/2,y+(height-8)/2,q.selected===letter,8);x+=width*.066})
+    ;['A','B','C'].forEach((letter,index)=>{rect(x,y,width*.066,height);const optionTop=optionTops[index]??(y+5);checkbox(x+(width*.066-8)/2,optionTop+(6.2-8)/2,q.selected===letter,8);x+=width*.066})
     y+=height
   })
   y+=5
