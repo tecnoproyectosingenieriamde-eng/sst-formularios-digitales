@@ -40,8 +40,8 @@ export default function SafeWorkAnalysis({ onBack }: { onBack: () => void }) {
 
   const print = () => window.print()
   const updatePerson = (i: number, key: keyof Person, value: string) => setPeople(old => old.map((p, n) => n === i ? { ...p, [key]: value } : p))
-  const updateHazard = (i: number, key: keyof HazardRow, value: string) => setHazards(old => old.map((p, n) => n === i ? { ...p, [key]: value } : p))
-  const updateCheck = (i: number, key: keyof CheckRow, value: string) => setChecks(old => old.map((p, n) => n === i ? { ...p, [key]: value } : p))
+  const updateHazard = (i: number, key: keyof HazardRow, value: string) => setHazards(old => old.map((p, n) => n === i ? ({ ...p, [key]: value } as HazardRow) : p))
+  const updateCheck = (i: number, key: keyof CheckRow, value: string) => setChecks(old => old.map((p, n) => n === i ? ({ ...p, [key]: value } as CheckRow) : p))
 
   return <section className="ats-page">
     <div className="ats-screen-controls">
