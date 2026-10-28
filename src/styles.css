@@ -388,7 +388,7 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   @page { size: letter portrait; margin: .25in; }
   html, body { margin: 0 !important; padding: 0 !important; }
   .ats-document { display: block !important; }
-  .ats-page-sheet { width: 100%; height: 10.5in; min-height: 10.5in; max-height: 10.5in; padding: 0; overflow: hidden; position: relative; break-after: page; page-break-after: always; }
+   .ats-page-sheet { width: 100%; height: auto; min-height: 10.5in; max-height: none; padding: 0; overflow: visible; position: relative; break-after: page; page-break-after: always; }
   .ats-page-sheet:last-child { break-after: auto; page-break-after: auto; }
   .ats-header { min-height: 50px; margin-bottom: 5px; }
   .ats-logo { width: 100%; max-width: 138px; height: 38px; object-fit: contain; margin: 0 auto; }
