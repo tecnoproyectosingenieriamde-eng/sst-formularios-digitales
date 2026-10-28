@@ -308,3 +308,20 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   .ats-authorization{font-size:9px;padding:6px;gap:5px}.ats-legal{font-size:7px;margin-top:7px;padding-top:5px}
   input,textarea,select{color:#000!important}
 }
+
+
+/* Ajustes de impresión ATS: conservar el contenido del formato y excluir controles de interfaz. */
+.ats-company{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.ats-logo{display:block;width:100%;max-width:112px;height:38px;object-fit:contain;object-position:left center;margin:0 auto 3px 0}
+@media print{
+  @page{size:letter portrait;margin:0.38in}
+  html,body{margin:0!important;padding:0!important;background:#fff!important}
+  .ats-company{align-items:center}
+  .ats-logo{max-width:92px;height:30px;object-fit:contain;margin:0 auto 2px}
+  .signature-label-row button,.signature-field small{display:none!important}
+  .signature-field{break-inside:avoid}
+  .signature-canvas{background:#fff!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  input,textarea,select{appearance:none;-webkit-appearance:none;background:transparent!important;box-shadow:none!important}
+  select{background-image:none!important}
+  .ats-radio input,.ats-authorization input{display:none!important}
+}
