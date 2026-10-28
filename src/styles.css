@@ -548,3 +548,28 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
  .ladder-signature-field canvas { border-bottom:.6pt solid #777; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
  .ladder-clear-signature { display:none !important; }
 }
+
+/* FM-SST-46: campos finales visibles y diligenciables en pantalla */
+.ladder-signatures > label input {
+  display:block !important;
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  min-height:24pt;
+  border:0;
+  border-bottom:.6pt solid #777;
+  border-radius:0;
+  padding:4pt 2pt;
+  background:#fff;
+  color:#111;
+  font:10pt "Times New Roman",serif;
+}
+.ladder-signatures > label { min-width:0; }
+@media print {
+  .ladder-signatures > label input {
+    display:block !important;
+    background:transparent;
+    border-bottom:.6pt solid #777;
+    color:#111;
+  }
+}
