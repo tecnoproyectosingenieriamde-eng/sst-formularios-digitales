@@ -30,9 +30,6 @@ function Header() {
     <div className="ladder-meta"><span>Código: FM-SST-46</span><span>Versión: 01</span><span>Fecha: 22/06/2026</span></div>
   </header>
 }
-function CriteriaTable({ rows, offset }: { rows: Criterion[]; offset: number }) {
-  return <table className="ladder-table"><colgroup><col style={{width:'7.5%'}}/><col style={{width:'31%'}}/><col style={{width:'19%'}}/><col style={{width:'20%'}}/><col style={{width:'22.5%'}}/></colgroup><thead><tr><th>N.º</th><th>Componente / criterio</th><th>Condición esperada</th><th>C/NC/N.A.</th><th>Observación / acción</th></tr></thead><tbody>{rows.map((r,i)=><tr key={offset+i}><td>{offset+i+1}</td><td>{r.name}</td><td>{r.expected}</td><td><div className="ladder-status">{(['C','NC','N/A'] as const).map(v=><label key={v}><input type="radio" name={`criterion-${offset+i}`} checked={r.status===v} onChange={()=>{}} aria-label={v}/><span>{v}</span></label>)}</div></td><td><textarea aria-label={`Observación criterio ${offset+i+1}`} value={r.observation} onChange={()=>{}} /></td></tr>)}</tbody></table>
-}
 export default function LadderInspection({ onBack }: { onBack: () => void }) {
  const [date,setDate]=useState(today()); const [location,setLocation]=useState(''); const [ladderId,setLadderId]=useState(''); const [brand,setBrand]=useState(''); const [inspector,setInspector]=useState(''); const [role,setRole]=useState(''); const [kind,setKind]=useState(''); const [lengthCapacity,setLengthCapacity]=useState(''); const [rows,setRows]=useState<Criterion[]>(emptyRows); const [result,setResult]=useState(''); const [inspectorSignature,setInspectorSignature]=useState(''); const [coordinator,setCoordinator]=useState(''); const [coordinatorSignature,setCoordinatorSignature]=useState(''); const [corrective,setCorrective]=useState(''); const [closeDate,setCloseDate]=useState('')
  const updateStatus=(index:number,status:Criterion['status'])=>setRows(old=>old.map((r,i)=>i===index?{...r,status}:r))
