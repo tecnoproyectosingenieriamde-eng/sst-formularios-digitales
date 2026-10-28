@@ -325,3 +325,26 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   select{background-image:none!important}
   .ats-radio input,.ats-authorization input{display:none!important}
 }
+
+/* Impresión ATS: tipografía estable y contenido en español sin depender de fuentes web. */
+@media print {
+  html, body, .ats-document, .ats-page-sheet, .ats-page-sheet * {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-synthesis: none !important;
+    text-rendering: auto !important;
+  }
+  .ats-page-sheet { color: #000 !important; }
+  .ats-header, .ats-fields, .ats-section, .ats-table, .ats-signatures,
+  .ats-authorization, .ats-legal, .ats-page-number {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .ats-table { table-layout: fixed; width: 100%; border-collapse: collapse; }
+  .ats-table th, .ats-table td { overflow-wrap: anywhere; word-break: normal; }
+  .ats-table input, .ats-table textarea, .ats-fields input,
+  .ats-signature-box input {
+    font-family: Arial, Helvetica, sans-serif !important;
+    color: #000 !important;
+  }
+  .ats-logo { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+}
