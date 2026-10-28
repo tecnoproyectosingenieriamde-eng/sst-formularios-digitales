@@ -609,3 +609,32 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
  body:has(.epp-editor) .epp-header { width:100%; margin-left:0; margin-right:0; }
  body:has(.epp-editor) .epp-table textarea, body:has(.epp-editor) .epp-cell-input, body:has(.epp-editor) .epp-ident input { print-color-adjust:exact; -webkit-print-color-adjust:exact; }
 }
+
+
+/* FM-SST-47: correcciones de fidelidad de tabla, continuidad y firmas */
+.epp-table col:nth-child(1) { width:22%; }
+.epp-table col:nth-child(2) { width:39%; }
+.epp-table col:nth-child(3) { width:13%; }
+.epp-table col:nth-child(4) { width:11%; }
+.epp-table col:nth-child(5) { width:15%; }
+.epp-table .ladder-status { display:flex; flex-direction:row; flex-wrap:nowrap; align-items:center; justify-content:center; gap:3pt; }
+.epp-table .ladder-status label { display:inline-flex; flex-direction:row; align-items:center; gap:1.5pt; white-space:nowrap; font-size:7.5pt; }
+.epp-table .ladder-status input { flex:0 0 7pt; width:7pt; height:7pt; }
+.epp-table td { height:auto; }
+.epp-table textarea { min-height:30pt; }
+.epp-continuation { display:none; }
+.epp-signatures { display:grid; grid-template-columns:1fr 1fr 1fr; gap:9pt; margin-top:16pt; }
+.epp-signatures > div { display:flex; flex-direction:column; align-items:stretch; gap:4pt; min-height:0; }
+.epp-signatures > div > label { font: bold 9pt "Times New Roman",serif; }
+.epp-signatures > div > input { order:2; border:0; border-bottom:.5pt solid #777; padding:3pt 0; border-radius:0; }
+.epp-signatures .signature-pad { order:3; }
+.epp-signatures .signature-pad canvas { height:30pt; border:0; border-bottom:.6pt solid #777; border-radius:0; }
+.epp-signatures .signature-pad button { display:none; }
+.epp-page-number { display:none !important; }
+@media print {
+ body:has(.epp-editor) .epp-table .ladder-status { flex-direction:row !important; flex-wrap:nowrap !important; }
+ body:has(.epp-editor) .epp-signatures { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8pt; margin-top:12pt; }
+ body:has(.epp-editor) .epp-signatures > div { display:flex; flex-direction:column; }
+ body:has(.epp-editor) .epp-signatures .signature-pad canvas { height:27pt; }
+ body:has(.epp-editor) .epp-page-number { display:none !important; }
+}
