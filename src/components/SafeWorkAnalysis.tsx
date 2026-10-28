@@ -66,7 +66,7 @@ export default function SafeWorkAnalysis({ onBack }: { onBack: () => void }) {
     <div className="ats-document">
       <div className="ats-page-sheet">
         <header className="ats-header">
-          <div className="ats-company"><img className="ats-logo" src="https://static.wixstatic.com/media/d0ce54_5945f241b1534afeb1a98e9e645f4482~mv2.jpg" alt="Logo de Tecnoproyectos Ingeniería S.A.S."/></div>
+          <div className="ats-company"><img className="ats-logo" src="https://static.wixstatic.com/media/d0ce54_5945f241b1534afeb1a98e9e645f4482~mv2.jpg" alt="Logo de Tecnoproyectos Ingeniería S.A.S."/><strong>TECNOPROYECTOS INGENIERÍA S.A.S.</strong></div>
           <div className="ats-title"><strong>SISTEMA DE GESTIÓN INTEGRADO</strong><strong>GESTIÓN DE LA SEGURIDAD Y SALUD EN EL TRABAJO</strong><b>ANÁLISIS DE TRABAJO SEGURO</b></div>
           <div className="ats-meta"><strong>Código: FM-SST-45</strong><span>Versión: 01</span><span>Fecha: 22/06/2026</span></div>
         </header>
@@ -94,12 +94,12 @@ export default function SafeWorkAnalysis({ onBack }: { onBack: () => void }) {
       </div>
       <div className="ats-page-sheet ats-page-two">
         <header className="ats-header">
-          <div className="ats-company"><img className="ats-logo" src="https://static.wixstatic.com/media/d0ce54_5945f241b1534afeb1a98e9e645f4482~mv2.jpg" alt="Logo de Tecnoproyectos Ingeniería S.A.S."/></div>
+          <div className="ats-company"><img className="ats-logo" src="https://static.wixstatic.com/media/d0ce54_5945f241b1534afeb1a98e9e645f4482~mv2.jpg" alt="Logo de Tecnoproyectos Ingeniería S.A.S."/><strong>TECNOPROYECTOS INGENIERÍA S.A.S.</strong></div>
           <div className="ats-title"><strong>SISTEMA DE GESTIÓN INTEGRADO</strong><strong>GESTIÓN DE LA SEGURIDAD Y SALUD EN EL TRABAJO</strong><b>ANÁLISIS DE TRABAJO SEGURO</b></div>
           <div className="ats-meta"><strong>Código: FM-SST-45</strong><span>Versión: 01</span><span>Fecha: 22/06/2026</span></div>
         </header>
         <h2 className="ats-section">3. VERIFICACIONES PREVIAS Y RECURSOS</h2>
-        <table className="ats-table"><thead><tr><th>Ítem</th><th>Cumple</th><th>Observaciones</th></tr></thead><tbody>{checks.map((c,i)=><tr key={c.item}><td>{c.item}</td><td>{(['Sí','No','N/A'] as const).map(v=><label className="ats-radio" key={v}><input type="radio" name={`check-${i}`} checked={c.status===v} onChange={()=>updateCheck(i,'status',v)}/>{v}</label>)}</td><td><input aria-label={`Observaciones ${c.item}`} value={c.notes} onChange={e=>updateCheck(i,'notes',e.target.value)}/></td></tr>)}</tbody></table>
+        <table className="ats-table ats-resources"><thead><tr><th>Ítem</th><th>Cumple</th><th>Observaciones</th></tr></thead><tbody>{checks.map((c,i)=><tr key={c.item}><td>{c.item}</td><td>{(['Sí','No','N/A'] as const).map(v=><label className="ats-radio" key={v}><input type="radio" name={`check-${i}`} checked={c.status===v} onChange={()=>updateCheck(i,'status',v)}/><span>{v}</span></label>)}</td><td><input aria-label={`Observaciones ${c.item}`} value={c.notes} onChange={e=>updateCheck(i,'notes',e.target.value)}/></td></tr>)}</tbody></table>
         <h2 className="ats-section">4. AUTORIZACIÓN / REVALIDACIÓN</h2>
         <div className="ats-authorization"><label><input type="radio" name="authorization" checked={authorization==='authorized'} onChange={()=>setAuthorization('authorized')}/> Resultado del ATS: TRABAJO AUTORIZADO</label><label><input type="radio" name="authorization" checked={authorization==='stopped'} onChange={()=>setAuthorization('stopped')}/> TRABAJO NO AUTORIZADO / SUSPENDIDO</label></div>
         <div className="ats-signatures">
