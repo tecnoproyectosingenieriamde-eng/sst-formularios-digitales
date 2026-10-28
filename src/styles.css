@@ -638,3 +638,16 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
  body:has(.epp-editor) .epp-signatures .signature-pad canvas { height:27pt; }
  body:has(.epp-editor) .epp-page-number { display:none !important; }
 }
+
+
+/* FM-SST-45: firma dibujada por participante dentro de la tabla */
+.ats-participant-signature .signature-field { min-width:0; gap:1pt; }
+.ats-participant-signature .signature-label-row { gap:2pt; }
+.ats-participant-signature .signature-label-row span { font-size:6.5pt; }
+.ats-participant-signature .signature-label-row button,
+.ats-participant-signature .signature-field small { display:none; }
+.ats-participant-signature .signature-field canvas { display:block; width:100%; height:28pt; border:0; border-bottom:.5pt solid #777; background:#fff; touch-action:none; cursor:crosshair; }
+@media print {
+  .ats-participant-signature .signature-field canvas { height:24pt; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  .ats-participant-signature .signature-label-row button { display:none !important; }
+}
