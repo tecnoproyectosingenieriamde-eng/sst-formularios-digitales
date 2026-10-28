@@ -412,3 +412,20 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   .ats-page-number { position: absolute; right: 0; bottom: 0; margin: 0; font-size: 9pt; }
   .ats-page-sheet * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+
+/* FM-SST-45: identidad institucional, casillas imprimibles y proporciones de tabla. */
+.ats-company strong { display:block; font-size:7px; line-height:1.15; text-align:center; letter-spacing:0; }
+.ats-resources { table-layout:fixed; }
+.ats-resources th:nth-child(1), .ats-resources td:nth-child(1),
+.ats-resources th:nth-child(2), .ats-resources td:nth-child(2),
+.ats-resources th:nth-child(3), .ats-resources td:nth-child(3) { width:33.333% !important; }
+.ats-table td { border:.5pt solid #000 !important; }
+.ats-table th { border:.5pt solid #000 !important; }
+@media print {
+  .ats-company strong { font-size:6.5pt !important; }
+  .ats-radio input { display:none !important; }
+  .ats-hazards .ats-radio::before, .ats-resources .ats-radio span::before { content:"☐ "; display:inline; font-family:Arial,sans-serif; font-size:8pt; }
+  .ats-resources .ats-radio { display:inline-block; margin:0 2px 0 0; }
+  .ats-hazards .ats-radio { display:inline-block; margin:0 2px 0 0; }
+}
