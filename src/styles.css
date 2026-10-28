@@ -539,3 +539,12 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
  body:has(.ladder-editor) .ladder-ident label:nth-child(even) { background:#fff !important; }
  body:has(.ladder-editor) .ladder-page-number { bottom:.22in; }
 }
+
+/* Firmas dibujadas en línea para FM-SST-46 */
+.ladder-signature-field { display:flex; flex-direction:column; gap:4pt; min-width:0; font: bold 10pt "Times New Roman",serif; }
+.ladder-signature-field canvas { display:block; width:100%; height:38pt; border:0; border-bottom:.6pt solid #999; background:#fff; touch-action:none; cursor:crosshair; }
+.ladder-clear-signature { align-self:flex-start; border:1px solid #aaa; border-radius:4px; padding:3px 7px; background:#f7f7f7; font-size:11px; }
+@media print {
+ .ladder-signature-field canvas { border-bottom:.6pt solid #777; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+ .ladder-clear-signature { display:none !important; }
+}
