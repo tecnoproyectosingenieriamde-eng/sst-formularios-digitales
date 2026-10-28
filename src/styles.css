@@ -326,10 +326,10 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   .ats-radio input,.ats-authorization input{display:none!important}
 }
 
-/* Impresión ATS: tipografía estable y contenido en español sin depender de fuentes web. */
+/* FM-SST-45: tipografía y proporciones fieles al formato documental impreso. */
 @media print {
   html, body, .ats-document, .ats-page-sheet, .ats-page-sheet * {
-    font-family: Arial, Helvetica, sans-serif !important;
+    font-family: "Times New Roman", Times, serif !important;
     font-synthesis: none !important;
     text-rendering: auto !important;
   }
@@ -343,8 +343,17 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   .ats-table th, .ats-table td { overflow-wrap: anywhere; word-break: normal; }
   .ats-table input, .ats-table textarea, .ats-fields input,
   .ats-signature-box input {
-    font-family: Arial, Helvetica, sans-serif !important;
+    font-family: "Times New Roman", Times, serif !important;
     color: #000 !important;
   }
+  .ats-header { grid-template-columns: 1fr 1.8fr 1fr; }
+  .ats-title { font-size: 10pt; line-height: 1.15; }
+  .ats-title strong, .ats-title b { font-size: 10pt; }
+  .ats-meta { font-size: 10pt; }
+  .ats-section { font-size: 12pt; background: #fff !important; }
+  .ats-table { font-size: 9pt; }
+  .ats-fields label, .ats-fields input { font-size: 10pt; }
+  .ats-legal { font-size: 12pt; }
+  .ats-page-number { font-size: 9pt; }
   .ats-logo { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }
