@@ -573,3 +573,39 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
     color:#111;
   }
 }
+
+/* FM-SST-47: formato técnico de inspección EPP, dos páginas carta */
+.epp-header { grid-template-columns:25% 50% 25%; height:90pt; }
+.epp-header .ladder-titles { font-size:10pt; line-height:1.02; gap:3pt; }
+.epp-header .ladder-meta { font-size:10pt; }
+.epp-page .ladder-ident { grid-template-columns:1fr 1fr; margin-top:9pt; margin-bottom:8pt; }
+.epp-ident label { min-height:23pt; grid-template-columns:34% 66%; font-size:10pt; }
+.epp-type { display:flex; gap:8pt; align-items:center; font-weight:normal; }
+.epp-type label { display:flex; min-height:0; grid-template-columns:none; gap:3pt; padding:0; border:0; background:transparent !important; font-weight:normal; align-items:center; }
+.epp-type input { width:9pt !important; height:9pt; accent-color:#222; }
+.epp-table { font:8pt "Times New Roman",serif; }
+.epp-table th,.epp-table td { padding:3pt 3pt; }
+.epp-table th { font-size:8pt; }
+.epp-table .ladder-status { display:flex; flex-direction:column; gap:2pt; }
+.epp-table .ladder-status label { font-size:8pt; gap:2pt; }
+.epp-table .ladder-status input { width:8pt; height:8pt; flex-basis:8pt; }
+.epp-table textarea { min-height:22pt; font:8pt "Times New Roman",serif; }
+.epp-cell-input { width:100%; min-width:0; border:0; border-bottom:.5pt solid #aaa; border-radius:0; background:transparent; font:8pt "Times New Roman",serif; color:#111; padding:2pt 0; }
+.epp-page-two .epp-table thead { display:none; }
+.epp-continuation { font:8pt "Times New Roman",serif; border:.5pt solid #d2d2d2; padding:4pt; margin-bottom:0; }
+.epp-retirement-title { margin-top:18pt; }
+.epp-retirement { font:12pt/1.25 "Times New Roman",serif; margin:6pt 0 18pt; }
+.epp-result { display:grid; grid-template-columns:1fr 1fr; align-items:start; gap:8pt 12pt; font: bold 10pt "Times New Roman",serif; }
+.epp-result label { display:flex; align-items:flex-start; gap:4pt; }
+.epp-signatures { display:flex; flex-direction:column; gap:11pt; margin-top:24pt; max-width:100%; }
+.epp-signatures > div { display:grid; grid-template-columns:24% 28% 48%; align-items:end; gap:8pt; min-height:38pt; }
+.epp-signatures > div > label { font:bold 10pt "Times New Roman",serif; }
+.epp-signatures > div > input { width:100%; min-width:0; border:0; border-bottom:.5pt solid #777; border-radius:0; background:transparent; font:10pt "Times New Roman",serif; padding:3pt 0; }
+.epp-signatures .signature-pad { min-width:0; }
+.epp-signatures canvas { max-width:100%; }
+@media print {
+ body:has(.epp-editor) .epp-page { width:8.5in; height:11in; min-height:11in; padding:.22in .5in .42in; overflow:hidden; break-after:page; page-break-after:always; }
+ body:has(.epp-editor) .epp-page:last-child { break-after:auto; page-break-after:auto; }
+ body:has(.epp-editor) .epp-header { width:100%; margin-left:0; margin-right:0; }
+ body:has(.epp-editor) .epp-table textarea, body:has(.epp-editor) .epp-cell-input, body:has(.epp-editor) .epp-ident input { print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+}
