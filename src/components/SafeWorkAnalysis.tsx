@@ -51,7 +51,7 @@ export default function SafeWorkAnalysis({ onBack }: { onBack: () => void }) {
     <div className="ats-document">
       <div className="ats-page-sheet">
         <header className="ats-header">
-          <div className="ats-company"><strong>TECNOPROYECTOS</strong><span>INGENIERÍA S.A.S.</span></div>
+          <div className="ats-company"><img className="ats-logo" src="https://static.wixstatic.com/media/d0ce54_5945f241b1534afeb1a98e9e645f4482~mv2.jpg" alt="Logo de Tecnoproyectos Ingeniería S.A.S."/><strong>TECNOPROYECTOS</strong><span>INGENIERÍA S.A.S.</span></div>
           <div className="ats-title"><strong>SISTEMA DE GESTIÓN INTEGRADO</strong><strong>GESTIÓN DE LA SEGURIDAD Y SALUD EN EL TRABAJO</strong><b>ANÁLISIS DE TRABAJO SEGURO</b></div>
           <div className="ats-meta"><strong>Código: FM-SST-45</strong><span>Versión: 01</span><span>Fecha: 22/06/2026</span></div>
         </header>
@@ -79,7 +79,7 @@ export default function SafeWorkAnalysis({ onBack }: { onBack: () => void }) {
       </div>
       <div className="ats-page-sheet ats-page-two">
         <header className="ats-header">
-          <div className="ats-company"><strong>TECNOPROYECTOS</strong><span>INGENIERÍA S.A.S.</span></div>
+          <div className="ats-company"><img className="ats-logo" src="https://static.wixstatic.com/media/d0ce54_5945f241b1534afeb1a98e9e645f4482~mv2.jpg" alt="Logo de Tecnoproyectos Ingeniería S.A.S."/><strong>TECNOPROYECTOS</strong><span>INGENIERÍA S.A.S.</span></div>
           <div className="ats-title"><strong>SISTEMA DE GESTIÓN INTEGRADO</strong><strong>GESTIÓN DE LA SEGURIDAD Y SALUD EN EL TRABAJO</strong><b>ANÁLISIS DE TRABAJO SEGURO</b></div>
           <div className="ats-meta"><strong>Código: FM-SST-45</strong><span>Versión: 01</span><span>Fecha: 22/06/2026</span></div>
         </header>
