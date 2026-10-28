@@ -470,3 +470,53 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   .ats-resources .ats-radio { display: inline-block !important; white-space: nowrap; margin: 0 2px 0 0 !important; }
   .ats-hazards .ats-radio { display: inline-block !important; white-space: nowrap; margin: 0 3px 0 0 !important; }
 }
+
+
+/* FM-SST-46: vista institucional y salida de impresión en dos páginas Carta */
+.ladder-editor { color: #111; }
+.ladder-toolbar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 0 18px; }
+.ladder-toolbar > div { flex:1; color:#4b5563; font-size:13px; }
+.ladder-paper { color:#111; font-family:"Times New Roman", Times, serif; }
+.ladder-page { position:relative; background:#fff; width:8.5in; min-height:10.5in; margin:0 auto 22px; padding:.22in .28in .42in; box-shadow:0 2px 16px #00000012; }
+.ladder-header { display:grid; grid-template-columns:25% 49% 26%; height:90pt; border:.6pt solid #333; margin-bottom:9pt; }
+.ladder-header > div { min-width:0; display:flex; align-items:center; justify-content:center; padding:4pt; }
+.ladder-header > div + div { border-left:.6pt solid #555; }
+.ladder-logo img { display:block; max-width:100%; max-height:75pt; object-fit:contain; }
+.ladder-titles { flex-direction:column; text-align:center; gap:5pt; font-size:12pt; line-height:1.05; }
+.ladder-meta { flex-direction:column; align-items:flex-start !important; justify-content:center; font-size:12pt; line-height:1.55; white-space:nowrap; }
+.ladder-ident { display:grid; grid-template-columns:1fr 1fr; border-top:.5pt solid #d2d2d2; border-left:.5pt solid #d2d2d2; margin-bottom:10pt; }
+.ladder-ident label { min-height:25pt; display:grid; grid-template-columns:42% 58%; align-items:center; gap:4pt; padding:3pt 5pt; border-right:.5pt solid #d2d2d2; border-bottom:.5pt solid #d2d2d2; font-size:10pt; font-weight:bold; }
+.ladder-ident label:nth-child(4n+1), .ladder-ident label:nth-child(4n+2) { background:#f0f1f1; }
+.ladder-ident input, .ladder-ident select { width:100%; min-width:0; border:0; border-bottom:.5pt solid #999; border-radius:0; padding:2pt; background:transparent; color:#111; font:10pt "Times New Roman",serif; }
+.ladder-section-title { font:bold 12pt "Times New Roman",serif; margin:7pt 0 5pt; }
+.ladder-table { width:100%; border-collapse:collapse; table-layout:fixed; font:10pt "Times New Roman",serif; color:#111; }
+.ladder-table th, .ladder-table td { border:.5pt solid #d2d2d2; padding:3pt 3.5pt; vertical-align:top; overflow-wrap:anywhere; }
+.ladder-table thead th { background:#fff; text-align:center; font-weight:bold; }
+.ladder-table tbody tr:nth-child(odd) td { background:#f0f1f1; }
+.ladder-table tbody tr:nth-child(even) td { background:#fff; }
+.ladder-table td:first-child { text-align:left; }
+.ladder-status { display:flex; flex-wrap:wrap; gap:2pt 5pt; }
+.ladder-status label { display:inline-flex; align-items:center; gap:2pt; white-space:nowrap; font-size:9pt; }
+.ladder-status input, .ladder-result-options input { accent-color:#222; width:10pt; height:10pt; margin:0; }
+.ladder-table textarea { display:block; width:100%; min-height:24pt; resize:vertical; border:0; border-radius:0; padding:0; background:transparent; color:#111; font:10pt "Times New Roman",serif; outline-offset:0; }
+.ladder-page-two .ladder-table thead { display:none; }
+.ladder-result { margin-top:35pt; }
+.ladder-result-options { display:flex; flex-wrap:wrap; gap:14pt; font:bold 12pt "Times New Roman",serif; }
+.ladder-result-options label { display:inline-flex; align-items:flex-start; gap:4pt; }
+.ladder-result p { margin-top:15pt; font:12pt/1.25 "Times New Roman",serif; }
+.ladder-signatures { display:grid; grid-template-columns:1fr 1fr; gap:20pt 18pt; margin-top:25pt; }
+.ladder-signatures label { display:flex; flex-direction:column; gap:5pt; font:bold 10pt "Times New Roman",serif; }
+.ladder-signatures input { border:0; border-bottom:.6pt solid #999; border-radius:0; padding:3pt 0; background:transparent; font:10pt "Times New Roman",serif; color:#111; }
+.ladder-page-number { position:absolute; right:.28in; bottom:.12in; font:10pt Calibri,Arial,sans-serif; }
+.ladder-disclaimer { max-width:8.5in; margin:0 auto 24px; color:#6b7280; font-size:12px; }
+@media print {
+  @page { size:letter portrait; margin:0; }
+  body:has(.ladder-editor) { background:#fff !important; }
+  body:has(.ladder-editor) .sidebar, body:has(.ladder-editor) .topbar, body:has(.ladder-editor) .no-print { display:none !important; }
+  body:has(.ladder-editor) .main-content { margin:0 !important; padding:0 !important; width:100% !important; }
+  body:has(.ladder-editor) .ladder-page { width:8.5in; height:11in; min-height:11in; margin:0; padding:.22in .28in .42in; box-shadow:none; overflow:hidden; break-after:page; page-break-after:always; }
+  body:has(.ladder-editor) .ladder-page:last-child { break-after:auto; page-break-after:auto; }
+  body:has(.ladder-editor) .ladder-table textarea, body:has(.ladder-editor) .ladder-ident input, body:has(.ladder-editor) .ladder-ident select, body:has(.ladder-editor) .ladder-signatures input { print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  body:has(.ladder-editor) .ladder-table textarea { overflow:visible; resize:none; }
+  body:has(.ladder-editor) .ladder-table tbody tr { break-inside:avoid; page-break-inside:avoid; }
+}
