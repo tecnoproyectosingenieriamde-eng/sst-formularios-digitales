@@ -295,7 +295,7 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   .main-content{padding:0!important;margin:0!important;width:100%!important;max-width:none!important}
   .ats-page{padding:0!important;margin:0!important;max-width:none!important}
   .ats-document{display:block!important;gap:0!important}
-  .ats-page-sheet{width:100%;height:10.24in;min-height:10.24in;max-height:10.24in;box-sizing:border-box;box-shadow:none;border:0;padding:0;overflow:hidden;break-after:page;page-break-after:always}
+  .ats-page-sheet{width:100%;height:auto;min-height:10.24in;max-height:none;box-sizing:border-box;box-shadow:none;border:0;padding:0;overflow:visible;break-after:page;page-break-after:always}
   .ats-page-sheet:last-child{break-after:auto;page-break-after:auto}
   .ats-header{margin-bottom:7px;min-height:55px}
   .ats-header>div{padding:4px}
@@ -348,7 +348,8 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   }
   .ats-header { grid-template-columns: 1fr 1.8fr 1fr; }
   .ats-title { font-size: 10pt; line-height: 1.15; }
-  .ats-title strong, .ats-title b { font-size: 10pt; }
+  .ats-title strong { font-size: 10pt; }
+  .ats-title b { font-size: 12pt; }
   .ats-meta { font-size: 10pt; }
   .ats-section { font-size: 12pt; background: #fff !important; }
   .ats-table { font-size: 9pt; }
