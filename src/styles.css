@@ -520,3 +520,22 @@ h2 { font: 800 22px Manrope, sans-serif; letter-spacing: -.035em; margin: 7px 0 
   body:has(.ladder-editor) .ladder-table textarea { overflow:visible; resize:none; }
   body:has(.ladder-editor) .ladder-table tbody tr { break-inside:avoid; page-break-inside:avoid; }
 }
+
+/* FM-SST-46 fidelity corrections based on the provided review */
+.ladder-page { max-width:calc(100vw - 32px); }
+.ladder-header { width:94%; margin-left:auto; margin-right:auto; }
+.ladder-ident label:nth-child(odd) { background:#f0f1f1; }
+.ladder-ident label:nth-child(even) { background:#fff; }
+.ladder-status input, .ladder-result-options input { appearance:none; -webkit-appearance:none; flex:0 0 10pt; width:10pt; height:10pt; border:1px solid #333; border-radius:0; background:#fff; position:relative; }
+.ladder-status input:checked::after, .ladder-result-options input:checked::after { content:""; position:absolute; inset:2pt; background:#222; }
+.ladder-signatures { gap:15pt 18pt; }
+.ladder-signatures input { display:none; }
+.ladder-signature-line { display:block; height:12pt; width:76%; border-bottom:.6pt solid #999; }
+.ladder-page-number { bottom:.22in; }
+@media print {
+ body:has(.ladder-editor) .ladder-page { max-width:none; }
+ body:has(.ladder-editor) .ladder-header { width:94%; margin-left:auto; margin-right:auto; }
+ body:has(.ladder-editor) .ladder-ident label:nth-child(odd) { background:#f0f1f1 !important; }
+ body:has(.ladder-editor) .ladder-ident label:nth-child(even) { background:#fff !important; }
+ body:has(.ladder-editor) .ladder-page-number { bottom:.22in; }
+}
